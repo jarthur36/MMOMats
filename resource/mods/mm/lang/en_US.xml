@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties version="1.0">
+	<comment>American English (en_US) Localization File</comment>
+	<entry key="item.stoneMat.tier1.name">Stone Sliver</entry>
+	<entry key="item.stoneMat.tier2.name">Rough Stone</entry>
+	<entry key="item.stoneMat.tier3.name">Stone</entry>
+	<entry key="item.stoneMat.tier4.name">Rounded Stone</entry>
+	<entry key="item.stoneMat.tier5.name">Polished Stone</entry>
+	<entry key="item.stoneMat.tier6.name">Refined Stone</entry>
+	
+	<entry key="item.ironMat.tier1.name">Iron Scraps</entry>
+	<entry key="item.ironMat.tier2.name">Iron Chunk</entry>
+	<entry key="item.ironMat.tier3.name">Iron Ingot</entry>
+	<entry key="item.ironMat.tier4.name">Refined Iron Ingot</entry>
+	<entry key="item.ironMat.tier5.name">Polished Iron Artifacts</entry>
+	<entry key="item.ironMat.tier6.name">Ancient Iron Core</entry>
+</properties>

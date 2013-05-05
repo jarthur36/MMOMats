@@ -6,7 +6,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * MMO Materials

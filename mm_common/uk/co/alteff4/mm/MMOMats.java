@@ -1,7 +1,9 @@
 package uk.co.alteff4.mm;
 
+import java.io.File;
 
-
+import uk.co.alteff4.mm.configuration.ConfigurationHandler;
+import uk.co.alteff4.mm.core.handlers.LocalizationHandler;
 import uk.co.alteff4.mm.core.proxy.CommonProxy;
 import uk.co.alteff4.mm.item.ModItems;
 import uk.co.alteff4.mm.lib.Reference;
@@ -32,21 +34,27 @@ public class MMOMats {
     public static MMOMats instance;
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
     public static CommonProxy proxy;
-    
+
     @PreInit
     public void preInit(FMLPreInitializationEvent event) {
-        
+        LocalizationHandler.loadLanguages();
+        ConfigurationHandler.init(new File(event.getModConfigurationDirectory()
+                .getAbsolutePath()
+                + File.separator
+                + Reference.CHANNEL_NAME
+                + File.separator + Reference.MOD_ID + ".cfg"));
+
+        ModItems.init();
     }
-    
+
     @Init
     public void load(FMLInitializationEvent event) {
-        ModItems.init();
-        }
-    
+
+    }
+
     @PostInit
     public void modsLoaded(FMLPostInitializationEvent event) {
 
     }
-    
 
 }

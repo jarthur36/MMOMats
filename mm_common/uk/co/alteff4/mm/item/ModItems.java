@@ -1,21 +1,21 @@
 package uk.co.alteff4.mm.item;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import uk.co.alteff4.mm.lib.ItemIds;
+import uk.co.alteff4.mm.lib.Strings;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 public class ModItems {
-    
+
     public static Item stoneMats;
-    
-    public static void init(){
-        stoneMats = new ItemStoneMat(5001);
-        
-        
-        for(int meta=0;meta<6;meta++){
-            LanguageRegistry.addName(new ItemStack(ModItems.stoneMats,1,meta), ItemStoneMat.STONE_MAT_NAMES[meta]);
-        }
-        
+    public static Item ironMats;
+
+    public static void init() {
+        stoneMats = new ItemStoneMat(ItemIds.STONE_MAT);
+        ironMats = new ItemIronMat(ItemIds.IRON_MAT);
+
+        GameRegistry.registerItem(stoneMats, Strings.STONE_MAT_NAME);
+        GameRegistry.registerItem(ironMats, Strings.IRON_MAT_NAME);
     }
 
 }
