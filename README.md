@@ -1,7 +1,7 @@
 MMOMats
 =======
 
-A mod by alteff4
+A mod by AltEff4 and PaleoCrafter
 
 Planned features
 ================
