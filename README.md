@@ -10,7 +10,7 @@ Planned features
   - Multiblock Structure
   - For metal composing
 - Forge (Assigned: PaleoCrafter, AltEff4)
-  - Custom anvil (AltEff4)
+  - Custom anvil - (Assigned: AltEff4) (Model and texture Complete - Need TESR and other rendering scripts)
   - For basic metal processing
   - Multiblock Structure
   - Uses bellows for heating it up (Right click on the bellows)
