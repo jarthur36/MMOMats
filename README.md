@@ -13,7 +13,7 @@ Planned features
   - Custom anvil (AltEff4)
   - For basic metal processing
   - Multiblock Structure
-  - Uses a bellows for heating it up (Right click on the bellows)
+  - Uses bellows for heating it up (Right click on the bellows)
 - Grinding Stone (Assigned: No one)
   - For refining materials
   - Multiple tiers (Stone, Diamond, later on maybe Adamantium or so)
