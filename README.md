@@ -7,7 +7,6 @@ Planned features
 ----------------
 
 - Arcane Forge (No one assigned)
-
   - Multiblock Structure
   - For metal composing
 
