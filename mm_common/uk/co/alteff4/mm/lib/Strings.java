@@ -8,5 +8,4 @@ public class Strings {
     /* Material names */
     public static final String STONE_MAT_NAME = "stoneMat";
     public static final String IRON_MAT_NAME = "ironMat";
-    public static final String ANVIL_NAME = "anvil";
 }

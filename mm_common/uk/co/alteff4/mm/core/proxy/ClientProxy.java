@@ -1,10 +1,5 @@
 package uk.co.alteff4.mm.core.proxy;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import uk.co.alteff4.mm.client.renderer.item.ItemAnvilRenderer;
-import uk.co.alteff4.mm.lib.BlockIds;
-import uk.co.alteff4.mm.lib.RenderIds;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.ForgeDirection;
 
 /**
@@ -49,10 +44,8 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void initRenderingAndTextures() {
- 
-        RenderIds.anvilRenderId = RenderingRegistry.getNextAvailableRenderId();
+
        
-        MinecraftForgeClient.registerItemRenderer(BlockIds.ANVIL, new ItemAnvilRenderer());
     }
 
     @Override
