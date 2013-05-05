@@ -1,5 +1,11 @@
 package uk.co.alteff4.mm.core.proxy;
 
+import cpw.mods.fml.client.registry.ClientRegistry;
+import uk.co.alteff4.mm.client.renderer.item.ItemAnvilRenderer;
+import uk.co.alteff4.mm.client.renderer.tileentity.TileAnvilRenderer;
+import uk.co.alteff4.mm.lib.BlockIds;
+import uk.co.alteff4.mm.tileentity.TileAnvil;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.ForgeDirection;
 
 /**
@@ -44,12 +50,14 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void initRenderingAndTextures() {
-
+        ClientRegistry.bindTileEntitySpecialRenderer(TileAnvil.class, new TileAnvilRenderer());
+        MinecraftForgeClient.registerItemRenderer(BlockIds.ANVIL, new ItemAnvilRenderer());
        
     }
 
     @Override
     public void registerTileEntities() {    
+                
     }
 
     @Override

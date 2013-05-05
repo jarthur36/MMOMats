@@ -12,4 +12,6 @@ package uk.co.alteff4.mm.lib;
  */
 public class BlockIds {
 
+    public static final int ANVIL = 501;
+
 }

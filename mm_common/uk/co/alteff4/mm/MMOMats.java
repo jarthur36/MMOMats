@@ -2,6 +2,7 @@ package uk.co.alteff4.mm;
 
 import java.io.File;
 
+import uk.co.alteff4.mm.block.ModBlocks;
 import uk.co.alteff4.mm.configuration.ConfigurationHandler;
 import uk.co.alteff4.mm.core.handlers.LocalizationHandler;
 import uk.co.alteff4.mm.core.proxy.CommonProxy;
@@ -45,11 +46,13 @@ public class MMOMats {
                 + File.separator + Reference.MOD_ID + ".cfg"));
 
         ModItems.init();
+        ModBlocks.init();
     }
 
     @Init
     public void load(FMLInitializationEvent event) {
 
+        proxy.initRenderingAndTextures();
     }
 
     @PostInit
