@@ -58,12 +58,11 @@ public class ItemAnvilRenderer implements IItemRenderer
      
         // Disable Lighting Calculations
         GL11.glDisable(GL11.GL_LIGHTING);
-         
-        GL11.glTranslatef(x,  y,  z);
+        GL11.glTranslatef((float)x, (float)y-0.75F, (float)z-1);
         GL11.glScalef(scale, scale, scale);
         GL11.glRotatef(180f, 0f, 1f, 0f);
          
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture("/mods/OBJTutorial/textures/models/TutBox.png");
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture("/mods/mm/textures/blocks/anvil.png");
          
         modelAnvil.render();
          
