@@ -2,6 +2,9 @@ package uk.co.alteff4.mm.core.proxy;
 
 import java.util.HashMap;
 
+import uk.co.alteff4.mm.client.gui.inventory.GuiHearth;
+import uk.co.alteff4.mm.inventory.ContainerHearth;
+import uk.co.alteff4.mm.lib.GuiIds;
 import uk.co.alteff4.mm.tileentity.TileAnvil;
 import uk.co.alteff4.mm.tileentity.TileHearth;
 import net.minecraft.entity.player.EntityPlayer;
@@ -72,14 +75,20 @@ public class CommonProxy implements IGuiHandler {
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world,
             int x, int y, int z) {
-
+        if(ID == GuiIds.HEARTH) {
+            TileHearth tileHearth = (TileHearth) world.getBlockTileEntity(x,y,z);
+            return new ContainerHearth(player.inventory, tileHearth);
+        }
         return null;
     }
 
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world,
             int x, int y, int z) {
-
+        if(ID == GuiIds.HEARTH) {
+            TileHearth tileHearth = (TileHearth) world.getBlockTileEntity(x,y,z);
+            return new GuiHearth(player.inventory, tileHearth);
+        }
         return null;
     }
 

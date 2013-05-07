@@ -4,6 +4,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import uk.co.alteff4.mm.MMOMats;
+import uk.co.alteff4.mm.lib.GuiIds;
 import uk.co.alteff4.mm.tileentity.TileAnvil;
 import uk.co.alteff4.mm.tileentity.TileHearth;
 import net.minecraft.block.material.Material;
@@ -55,13 +57,23 @@ public class BlockForge extends BlockMM {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z,
             EntityPlayer player, int par6, float par7, float par8, float par9) {
+        switch (world.getBlockMetadata(x, y, z)) {
+            case 0:
+                return false;
+            case 1:
+                player.openGui(MMOMats.instance, GuiIds.HEARTH, world, x, y, z);
+                return true;
+        }
         return false;
     }
-    
+
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
         if (world.getBlockMetadata(x, y, z) == 1) {
-            return 15;
+            if (((TileHearth) world.getBlockTileEntity(x, y, z))
+                    .getState() == 1) {
+                return 15;
+            }
         }
         return 0;
     }

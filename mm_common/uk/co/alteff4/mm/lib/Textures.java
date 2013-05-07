@@ -13,6 +13,9 @@ package uk.co.alteff4.mm.lib;
 public class Textures {
     public static final String MODEL_LOC = "/mods/"
             + Reference.MOD_ID.toLowerCase() + "/textures/models/";
-    
+    public static final String GUI_LOC = "/mods/"
+            + Reference.MOD_ID.toLowerCase() + "/textures/gui/";
+
     public static final String MODEL_ANVIL = MODEL_LOC + "anvil.png";
+    public static final String GUI_HEARTH = GUI_LOC + "hearth.png";
 }

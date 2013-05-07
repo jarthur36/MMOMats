@@ -15,6 +15,10 @@ public class Strings {
     public static final String ANVIL_NAME = "anvil";
     public static final String HEARTH_NAME = "hearth";
     
+    /* Container names */
+    public static final String CONTAINER_INVENTORY = "container.inventory";
+    public static final String CONTAINER_HEARTH = "container.hearth";
+    
     /* Tile Entity NBT keys */
     public static final String NBT_TE_DIRECTION = "orientation";
     public static final String NBT_TE_STATE = "state";

@@ -21,7 +21,6 @@ public class PacketHandler implements IPacketHandler {
     public void onPacketData(INetworkManager manager,
             Packet250CustomPayload packet, Player player) {
         PacketMM packetMM = PacketTypeHandler.buildPacket(packet.data);
-
         // Execute the appropriate actions based on the PacketMM type
         packetMM.execute(manager, player);
     }

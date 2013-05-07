@@ -18,4 +18,6 @@
 	<entry key="item.ironMat.tier4.name">Refined Iron Ingot</entry>
 	<entry key="item.ironMat.tier5.name">Polished Iron Artifacts</entry>
 	<entry key="item.ironMat.tier6.name">Ancient Iron Core</entry>
+	
+	<entry key="container.hearth">Hearth</entry>
 </properties>

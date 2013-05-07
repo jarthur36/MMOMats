@@ -8,6 +8,7 @@ import uk.co.alteff4.mm.core.handlers.LocalizationHandler;
 import uk.co.alteff4.mm.core.proxy.CommonProxy;
 import uk.co.alteff4.mm.item.ModItems;
 import uk.co.alteff4.mm.lib.Reference;
+import uk.co.alteff4.mm.network.PacketHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -18,6 +19,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
 
 /**
  * MMO Materials
@@ -29,7 +31,7 @@ import cpw.mods.fml.common.network.NetworkMod;
  * 
  */
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION_NUMBER, dependencies = Reference.DEPENDENCIES, certificateFingerprint = Reference.FINGERPRINT)
-@NetworkMod(channels = { Reference.CHANNEL_NAME }, clientSideRequired = true, serverSideRequired = false)
+@NetworkMod(channels = { Reference.CHANNEL_NAME }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class MMOMats {
     @Instance(Reference.MOD_ID)
     public static MMOMats instance;
@@ -51,6 +53,8 @@ public class MMOMats {
 
     @Init
     public void load(FMLInitializationEvent event) {
+        NetworkRegistry.instance().registerGuiHandler(instance, proxy);
+        
         proxy.registerTileEntities();
         proxy.initRenderingAndTextures();
     }
