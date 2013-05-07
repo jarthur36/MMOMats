@@ -1,11 +1,12 @@
 package uk.co.alteff4.mm.core.proxy;
 
+import uk.co.alteff4.mm.tileentity.TileAnvil;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * MMO Materials
@@ -43,13 +44,9 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public void registerTileEntities() {
-
+        GameRegistry.registerTileEntity(TileAnvil.class, "tileAnvil");
     }
-
-    public void transmuteBlock(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int sideHit) {
-
-    }
-
+    
     public void sendRequestEventPacket(byte eventType, int originX, int originY, int originZ, byte sideHit, byte rangeX, byte rangeY, byte rangeZ, String data) {
 
     }

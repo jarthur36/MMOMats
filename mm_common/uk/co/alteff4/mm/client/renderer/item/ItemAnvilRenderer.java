@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
-import uk.co.alteff4.models.ModelAnvil;
+import uk.co.alteff4.mm.client.model.ModelAnvil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -14,7 +14,7 @@ public class ItemAnvilRenderer implements IItemRenderer
      
     public ItemAnvilRenderer()
     {
-       modelAnvil = new ModelAnvil();
+       //modelAnvil = new ModelAnvil();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class ItemAnvilRenderer implements IItemRenderer
          
         FMLClientHandler.instance().getClient().renderEngine.bindTexture("/mods/mm/textures/blocks/anvil.png");
          
-        modelAnvil.render();
+        //modelAnvil.render();
          
         // Re-enable Lighting Calculations
         GL11.glEnable(GL11.GL_LIGHTING);

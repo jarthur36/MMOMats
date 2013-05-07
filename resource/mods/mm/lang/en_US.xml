@@ -2,6 +2,8 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties version="1.0">
 	<comment>American English (en_US) Localization File</comment>
+	<entry key="tile.mmAnvil.name">Anvil</entry>
+	
 	<entry key="item.stoneMat.tier1.name">Stone Sliver</entry>
 	<entry key="item.stoneMat.tier2.name">Rough Stone</entry>
 	<entry key="item.stoneMat.tier3.name">Stone</entry>

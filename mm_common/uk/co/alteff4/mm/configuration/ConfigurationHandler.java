@@ -3,6 +3,7 @@ package uk.co.alteff4.mm.configuration;
 import java.io.File;
 import java.util.logging.Level;
 
+import uk.co.alteff4.mm.lib.BlockIds;
 import uk.co.alteff4.mm.lib.ItemIds;
 import uk.co.alteff4.mm.lib.Reference;
 import uk.co.alteff4.mm.lib.Strings;
@@ -31,8 +32,8 @@ public class ConfigurationHandler {
             configuration.load();
 
             /* Block configs */
-            //BlockIds.ORE = configuration.getBlock("ore",
-            //        BlockIds.ORE_DEFAULT).getInt(BlockIds.ORE_DEFAULT);
+            BlockIds.ANVIL = configuration.getBlock(Strings.ANVIL,
+                    BlockIds.ANVIL_DEFAULT).getInt(BlockIds.ANVIL_DEFAULT);
             /* Block property configs */
 
             /* Item configs */

@@ -52,7 +52,6 @@ public class ClientProxy extends CommonProxy {
     public void initRenderingAndTextures() {
         ClientRegistry.bindTileEntitySpecialRenderer(TileAnvil.class, new TileAnvilRenderer());
         MinecraftForgeClient.registerItemRenderer(BlockIds.ANVIL, new ItemAnvilRenderer());
-       
     }
 
     @Override

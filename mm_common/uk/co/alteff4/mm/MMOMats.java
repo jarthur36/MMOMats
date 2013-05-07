@@ -51,7 +51,6 @@ public class MMOMats {
 
     @Init
     public void load(FMLInitializationEvent event) {
-
         proxy.initRenderingAndTextures();
     }
 
