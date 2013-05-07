@@ -1,6 +1,9 @@
 package uk.co.alteff4.mm.core.proxy;
 
+import java.util.HashMap;
+
 import uk.co.alteff4.mm.tileentity.TileAnvil;
+import uk.co.alteff4.mm.tileentity.TileHearth;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -44,32 +47,39 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public void registerTileEntities() {
-        GameRegistry.registerTileEntity(TileAnvil.class, "tileAnvil");
+        GameRegistry.registerTileEntity(TileAnvil.class, "tileMMAnvil");
+        GameRegistry.registerTileEntity(TileHearth.class, "tileHearth");
     }
-    
-    public void sendRequestEventPacket(byte eventType, int originX, int originY, int originZ, byte sideHit, byte rangeX, byte rangeY, byte rangeZ, String data) {
+
+    public void sendRequestEventPacket(byte eventType, int originX,
+            int originY, int originZ, byte sideHit, byte rangeX, byte rangeY,
+            byte rangeZ, String data) {
 
     }
 
-    public void handleTileEntityPacket(int x, int y, int z, ForgeDirection orientation, byte state, String customName) {
+    public void handleTileEntityPacket(int x, int y, int z,
+            ForgeDirection orientation, byte state, String customName,
+            HashMap<String, Integer> addIntegers) {
 
     }
-    
-    public void handleTileWithItemPacket(int x, int y, int z, ForgeDirection orientation, byte state, String customName, int itemID, int metaData) {
-        
+
+    public void handleTileWithItemPacket(int x, int y, int z,
+            ForgeDirection orientation, byte state, String customName,
+            int itemID, int metaData) {
+
     }
 
     @Override
-    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-
+    public Object getServerGuiElement(int ID, EntityPlayer player, World world,
+            int x, int y, int z) {
 
         return null;
     }
 
     @Override
-    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world,
+            int x, int y, int z) {
 
-    
         return null;
     }
 

@@ -45,12 +45,13 @@ public class MMOMats {
                 + Reference.CHANNEL_NAME
                 + File.separator + Reference.MOD_ID + ".cfg"));
 
-        ModItems.init();
         ModBlocks.init();
+        ModItems.init();
     }
 
     @Init
     public void load(FMLInitializationEvent event) {
+        proxy.registerTileEntities();
         proxy.initRenderingAndTextures();
     }
 

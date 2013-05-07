@@ -1,17 +1,15 @@
-package uk.co.alteff4.mm.lib;
+package uk.co.alteff4.mm.tileentity;
 
 /**
  *
  * MMO Materials
  *
- * BlockIds
+ * TileHearth
  *
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class BlockIds {
-    public static final int FORGE_DEFAULT = 501;
-
-    public static int FORGE;
+public class TileHearth extends TileMM {
+    
 }

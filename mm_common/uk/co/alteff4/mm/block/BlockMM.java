@@ -1,6 +1,7 @@
 package uk.co.alteff4.mm.block;
 
 import uk.co.alteff4.mm.lib.Reference;
+import uk.co.alteff4.mm.tileentity.TileMM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -52,7 +53,11 @@ public class BlockMM extends BlockContainer {
             direction = ForgeDirection.WEST.ordinal();
         }
 
-        world.setBlockMetadataWithNotify(x, y, z, direction, 3);
-    }
+        if (itemStack.hasDisplayName()) {
+            ((TileMM) world.getBlockTileEntity(x, y, z))
+                    .setCustomName(itemStack.getDisplayName());
+        }
 
+        ((TileMM) world.getBlockTileEntity(x, y, z)).setOrientation(direction);
+    }
 }

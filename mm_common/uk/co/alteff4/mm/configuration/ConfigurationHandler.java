@@ -32,8 +32,8 @@ public class ConfigurationHandler {
             configuration.load();
 
             /* Block configs */
-            BlockIds.ANVIL = configuration.getBlock(Strings.ANVIL,
-                    BlockIds.ANVIL_DEFAULT).getInt(BlockIds.ANVIL_DEFAULT);
+            BlockIds.FORGE = configuration.getBlock(Strings.FORGE_NORMAL_NAME,
+                    BlockIds.FORGE_DEFAULT).getInt(BlockIds.FORGE_DEFAULT);
             /* Block property configs */
 
             /* Item configs */
