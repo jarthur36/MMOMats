@@ -32,7 +32,7 @@ public class TileHearth extends TileMM implements IInventory {
         super();
         inventory = new ItemStack[INVENTORY_SIZE];
     }
-    
+
     @Override
     public void updateEntity() {
         super.updateEntity();
@@ -48,8 +48,8 @@ public class TileHearth extends TileMM implements IInventory {
                 hasToUpd = true;
             }
             if (hasToUpd) {
-                PacketDispatcher.sendPacketToAllPlayers(//xCoord, yCoord, zCoord,
-                        //32, this.worldObj.provider.dimensionId,
+                PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
+                        32, this.worldObj.provider.dimensionId,
                         getDescriptionPacket());
             }
         }
