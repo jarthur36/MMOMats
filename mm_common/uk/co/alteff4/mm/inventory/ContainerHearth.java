@@ -27,27 +27,34 @@ public class ContainerHearth extends Container {
             TileHearth tileHearth) {
 
         this.addSlotToContainer(new Slot(tileHearth,
-                TileHearth.FUEL_INVENTORY_INDEX, 80, 21) {
+                TileHearth.INPUT_INVENTORY_INDEX, 56, 17));
+
+        this.addSlotToContainer(new Slot(tileHearth,
+                TileHearth.OUTPUT_INVENTORY_INDEX, 116, 35) {
+            @Override
+            public boolean isItemValid(ItemStack itemstack) {
+                return false;
+            }
+        });
+
+        this.addSlotToContainer(new Slot(tileHearth,
+                TileHearth.FUEL_INVENTORY_INDEX, 56, 53) {
             @Override
             public boolean isItemValid(ItemStack itemstack) {
                 return TileEntityFurnace.isItemFuel(itemstack);
             }
         });
 
-        // Add the player's inventory slots to the container
-        for (int inventoryRowIndex = 0; inventoryRowIndex < PLAYER_INVENTORY_ROWS; ++inventoryRowIndex) {
-            for (int inventoryColumnIndex = 0; inventoryColumnIndex < PLAYER_INVENTORY_COLUMNS; ++inventoryColumnIndex) {
+        for (int i = 0; i < PLAYER_INVENTORY_ROWS; ++i) {
+            for (int j = 0; j < PLAYER_INVENTORY_COLUMNS; ++j) {
                 this.addSlotToContainer(new Slot(inventoryPlayer,
-                        inventoryColumnIndex + inventoryRowIndex * 9 + 9,
-                        8 + inventoryColumnIndex * 18,
-                        54 + inventoryRowIndex * 18));
+                        j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
 
-        // Add the player's action bar slots to the container
-        for (int actionBarSlotIndex = 0; actionBarSlotIndex < PLAYER_INVENTORY_COLUMNS; ++actionBarSlotIndex) {
-            this.addSlotToContainer(new Slot(inventoryPlayer,
-                    actionBarSlotIndex, 8 + actionBarSlotIndex * 18, 112));
+        for (int i = 0; i < PLAYER_INVENTORY_COLUMNS; ++i) {
+            this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18,
+                    142));
         }
     }
 

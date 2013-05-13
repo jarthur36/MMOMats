@@ -24,26 +24,52 @@ public class TileHearth extends TileMM implements IInventory {
      */
     private ItemStack[] inventory;
 
-    private final int INVENTORY_SIZE = 1;
+    private final int INVENTORY_SIZE = 3;
 
-    public static final int FUEL_INVENTORY_INDEX = 0;
+    public static final int INPUT_INVENTORY_INDEX = 0;
+    public static final int FUEL_INVENTORY_INDEX = 1;
+    public static final int OUTPUT_INVENTORY_INDEX = 2;
 
     public TileHearth() {
         super();
         inventory = new ItemStack[INVENTORY_SIZE];
+        setHeat(0);
+        setCoalAmount(0);
+    }
+
+    public int getHeat() {
+        return getInt("heat");
+    }
+
+    public void setHeat(int heat) {
+        setInt("heat", heat);
+    }
+
+    public int getCoalAmount() {
+        return getInt("coalAmount");
+    }
+
+    public void setCoalAmount(int amount) {
+        setInt("coalAmount", amount);
     }
 
     @Override
     public void updateEntity() {
         super.updateEntity();
         boolean hasToUpd = false;
-        if (worldObj.isRemote) {
-            if (getStackInSlot(0) != null) {
+
+        if (!worldObj.isRemote) {
+            if (inventory[FUEL_INVENTORY_INDEX] != null) {
+                if(getCoalAmount() != inventory[FUEL_INVENTORY_INDEX].stackSize) {
+                    setCoalAmount(inventory[FUEL_INVENTORY_INDEX].stackSize);
+                    hasToUpd = true;
+                }
                 if (getState() == 0) {
                     setState((byte) 1);
                     hasToUpd = true;
                 }
             } else if (getState() == 1) {
+                setCoalAmount(0);
                 setState((byte) 0);
                 hasToUpd = true;
             }
@@ -53,6 +79,13 @@ public class TileHearth extends TileMM implements IInventory {
                         getDescriptionPacket());
             }
         }
+    }
+
+    @Override
+    public void setState(byte state) {
+        super.setState(state);
+        if (worldObj.isRemote)
+            worldObj.updateAllLightTypes(xCoord, yCoord, zCoord);
     }
 
     /**

@@ -17,5 +17,7 @@ public class Textures {
             + Reference.MOD_ID.toLowerCase() + "/textures/gui/";
 
     public static final String MODEL_ANVIL = MODEL_LOC + "anvil.png";
+    public static final String MODEL_COAL = MODEL_LOC + "coal.png";
+    
     public static final String GUI_HEARTH = GUI_LOC + "hearth.png";
 }

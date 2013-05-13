@@ -1,5 +1,11 @@
 package uk.co.alteff4.mm.client.model;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+import uk.co.alteff4.mm.lib.Textures;
+
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
@@ -24,6 +30,7 @@ public class ModelHearth extends ModelBase {
     ModelRenderer Foot2;
     ModelRenderer Foot3;
     ModelRenderer Foot4;
+    private ArrayList<ModelRenderer> coalChunks;
 
     public ModelHearth() {
         textureWidth = 64;
@@ -83,6 +90,14 @@ public class ModelHearth extends ModelBase {
         Foot4.setTextureSize(64, 32);
         Foot4.mirror = true;
         setRotation(Foot4, 0F, 0F, 0F);
+
+        coalChunks = new ArrayList<ModelRenderer>();
+        Random rand = new Random();
+        for (int i = 0; i < 64; i++) {
+            addCoalChunk(rand.nextInt(8) - 4, 19 - rand.nextInt(6),
+                    rand.nextInt(8) - 4, rand.nextFloat(), rand.nextFloat(),
+                    rand.nextFloat());
+        }
     }
 
     public void render() {
@@ -95,6 +110,26 @@ public class ModelHearth extends ModelBase {
         Foot2.render(0.0625F);
         Foot3.render(0.0625F);
         Foot4.render(0.0625F);
+    }
+
+    public void render(int coal) {
+        render();
+        FMLClientHandler.instance().getClient().renderEngine
+                .resetBoundTexture();
+        FMLClientHandler.instance().getClient().renderEngine
+                .bindTexture(Textures.MODEL_COAL);
+        for (int i = 0; i < coal; i++) {
+            coalChunks.get(i).render(0.0625F);
+        }
+    }
+
+    private void addCoalChunk(int x, int y, int z, float rotX, float rotY,
+            float rotZ) {
+        ModelRenderer model = new ModelRenderer(this, 0, 0);
+        model.addBox(0, 0, 0, 3, 1, 1);
+        model.setRotationPoint(x, y, z);
+        setRotation(model, rotX, rotY, rotZ);
+        coalChunks.add(model);
     }
 
     private void setRotation(ModelRenderer model, float x, float y, float z) {

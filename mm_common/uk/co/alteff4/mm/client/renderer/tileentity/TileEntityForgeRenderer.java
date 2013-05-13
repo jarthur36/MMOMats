@@ -27,11 +27,11 @@ public class TileEntityForgeRenderer extends TileEntitySpecialRenderer {
         if (tileEntity instanceof TileAnvil) {
             renderAnvil(tileEntity, x, y, z);
         } else if (tileEntity instanceof TileHearth) {
-            renderHearth(tileEntity, x, y, z);
+            renderHearth((TileHearth) tileEntity, x, y, z);
         }
     }
 
-    private void renderHearth(TileEntity te, double x, double y, double z) {
+    private void renderHearth(TileHearth te, double x, double y, double z) {
         // Push a blank matrix onto the stack
         GL11.glPushMatrix();
 
@@ -45,8 +45,11 @@ public class TileEntityForgeRenderer extends TileEntitySpecialRenderer {
         FMLClientHandler.instance().getClient().renderEngine
                 .bindTexture(Textures.MODEL_ANVIL);
 
-        // Render the object, using modelTutBox.renderAll();
-        modelHearth.render();
+        if (te.getState() == 1) {
+            modelHearth.render(te.getCoalAmount());
+        } else {
+            modelHearth.render();
+        }
 
         // Pop this matrix from the stack.
         GL11.glPopMatrix();

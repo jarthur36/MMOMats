@@ -1,10 +1,10 @@
 package uk.co.alteff4.mm;
 
 import java.io.File;
-
 import uk.co.alteff4.mm.block.ModBlocks;
 import uk.co.alteff4.mm.configuration.ConfigurationHandler;
 import uk.co.alteff4.mm.core.handlers.LocalizationHandler;
+import uk.co.alteff4.mm.core.helpers.LogHelper;
 import uk.co.alteff4.mm.core.proxy.CommonProxy;
 import uk.co.alteff4.mm.item.ModItems;
 import uk.co.alteff4.mm.lib.Reference;
@@ -40,6 +40,7 @@ public class MMOMats {
 
     @PreInit
     public void preInit(FMLPreInitializationEvent event) {
+        LogHelper.init();
         LocalizationHandler.loadLanguages();
         ConfigurationHandler.init(new File(event.getModConfigurationDirectory()
                 .getAbsolutePath()
@@ -54,7 +55,7 @@ public class MMOMats {
     @Init
     public void load(FMLInitializationEvent event) {
         NetworkRegistry.instance().registerGuiHandler(instance, proxy);
-        
+
         proxy.registerTileEntities();
         proxy.initRenderingAndTextures();
     }

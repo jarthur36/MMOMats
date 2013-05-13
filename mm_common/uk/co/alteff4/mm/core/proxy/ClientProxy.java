@@ -83,8 +83,6 @@ public class ClientProxy extends CommonProxy {
                 ((TileMM) tileEntity).setState(state);
                 ((TileMM) tileEntity).setCustomName(customName);
                 ((TileMM) tileEntity).setAddIntegers(addIntegers);
-                FMLClientHandler.instance().getClient().theWorld
-                        .setBlockTileEntity(x, y, z, tileEntity);
             }
         }
     }

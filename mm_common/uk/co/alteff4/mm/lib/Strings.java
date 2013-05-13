@@ -23,4 +23,7 @@ public class Strings {
     public static final String NBT_TE_DIRECTION = "orientation";
     public static final String NBT_TE_STATE = "state";
     public static final String NBT_TE_NAME = "customName";
+    
+    /* Terms */
+    public static final String TERM_HEAT = "term.heat";
 }

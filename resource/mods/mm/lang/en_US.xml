@@ -20,4 +20,6 @@
 	<entry key="item.ironMat.tier6.name">Ancient Iron Core</entry>
 	
 	<entry key="container.hearth">Hearth</entry>
+	
+	<entry key="term.heat">Heat</entry>
 </properties>

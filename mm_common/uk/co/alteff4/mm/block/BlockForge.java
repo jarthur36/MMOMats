@@ -1,7 +1,6 @@
 package uk.co.alteff4.mm.block;
 
 import java.util.List;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import uk.co.alteff4.mm.MMOMats;
@@ -70,8 +69,7 @@ public class BlockForge extends BlockMM {
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
         if (world.getBlockMetadata(x, y, z) == 1) {
-            if (((TileHearth) world.getBlockTileEntity(x, y, z))
-                    .getState() == 1) {
+            if (((TileHearth) world.getBlockTileEntity(x, y, z)).getState() == 1) {
                 return 15;
             }
         }
