@@ -5,12 +5,10 @@ import net.minecraft.item.Item;
 
 public class ModItems {
 
-    public static Item stoneMats;
-    public static Item ironMats;
+    public static Item itemMaterials;
 
     public static void init() {
-        stoneMats = new ItemStoneMat(ItemIds.STONE_MAT);
-        ironMats = new ItemIronMat(ItemIds.IRON_MAT);
+        itemMaterials = new ItemMat(ItemIds.MATERIALS);
     }
 
 }

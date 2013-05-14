@@ -12,14 +12,14 @@ import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.FMLLog;
 
 /**
- *
+ * 
  * MMO Materials
- *
+ * 
  * ConfigurationHandler
- *
+ * 
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- *
+ * 
  */
 public class ConfigurationHandler {
     public static Configuration configuration;
@@ -34,15 +34,14 @@ public class ConfigurationHandler {
             /* Block configs */
             BlockIds.FORGE = configuration.getBlock(Strings.FORGE_NORMAL_NAME,
                     BlockIds.FORGE_DEFAULT).getInt(BlockIds.FORGE_DEFAULT);
+            BlockIds.STANDARD = configuration.getBlock(
+                    Strings.STANDARD_BLOCKS_NAME, BlockIds.STANDARD_DEFAULT)
+                    .getInt(BlockIds.STANDARD_DEFAULT);
             /* Block property configs */
 
             /* Item configs */
-            ItemIds.IRON_MAT = configuration.getItem(Strings.IRON_MAT_NAME,
-                    ItemIds.IRON_MAT_DEFAULT).getInt(
-                    ItemIds.IRON_MAT_DEFAULT);
-            ItemIds.STONE_MAT = configuration.getItem(Strings.STONE_MAT_NAME,
-                    ItemIds.STONE_MAT_DEFAULT).getInt(
-                    ItemIds.STONE_MAT_DEFAULT);
+            ItemIds.MATERIALS = configuration.getItem("itemMaterials",
+                    ItemIds.MATERIALS_DEFAULT).getInt(ItemIds.MATERIALS_DEFAULT);
         } catch (Exception e) {
             FMLLog.log(Level.SEVERE, e, Reference.MOD_NAME
                     + " has had a problem loading its configuration");

@@ -5,13 +5,17 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import uk.co.alteff4.mm.MMOMats;
 import uk.co.alteff4.mm.lib.GuiIds;
+import uk.co.alteff4.mm.lib.Reference;
 import uk.co.alteff4.mm.tileentity.TileAnvil;
 import uk.co.alteff4.mm.tileentity.TileHearth;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -41,18 +45,35 @@ public class BlockForge extends BlockMM {
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess access, int x, int y,
-            int z) {
-        switch (access.getBlockMetadata(x, y, z)) {
-            case 0:
-                setBlockBounds(0, 0, 0, 1, 1, 1);
-                return;
-            case 1:
-                setBlockBounds(0, 0, 0, 1, 0.5625F, 1);
-                return;
-        }
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister iconRegister) {
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase()
+                + ":brickFire");
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public void addCollisionBoxesToList(World world, int x, int y, int z,
+            AxisAlignedBB bounds, List list, Entity entity) {
+        if (world.getBlockMetadata(x, y, z) == 1) {
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.3125F, 1.0F);
+            super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+            float f = 0.125F;
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1F, 1.0F);
+            super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1F, f);
+            super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+            this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1F, 1.0F);
+            super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+            this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1F, 1.0F);
+            super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+            setBlockBounds(0, 0, 0, 1, 0.5625F, 1);
+            return;
+        }
+        this.setBlockBounds(0, 0, 0, 1, 1, 1);
+        super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+    }
+    
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z,
             EntityPlayer player, int par6, float par7, float par8, float par9) {

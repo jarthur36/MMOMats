@@ -1,37 +1,35 @@
 package uk.co.alteff4.mm.item;
 
-import uk.co.alteff4.mm.lib.Strings;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import uk.co.alteff4.mm.lib.Strings;
 
 /**
  * 
  * MMO Materials
  * 
- * ItemBlockForge
+ * ItemBlockStandard
  * 
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-public class ItemBlockForge extends ItemBlock {
+public class ItemBlockStandard extends ItemBlock {
+    private final static String[] subNames = { Strings.FIRE_RESISTANT_NAME };
 
-    private final static String[] subNames = { Strings.ANVIL_NAME,
-            Strings.HEARTH_NAME, Strings.BELLOWS_NAME };
-
-    public ItemBlockForge(int id) {
+    public ItemBlockStandard(int id) {
         super(id);
-        this.setUnlocalizedName(Strings.FORGE_NORMAL_NAME);
+        this.setUnlocalizedName(Strings.STANDARD_BLOCKS_NAME);
     }
 
     @Override
     public String getUnlocalizedName(ItemStack is) {
         if (is.getItemDamage() >= subNames.length)
             return "";
-        return "block." + Strings.FORGE_NORMAL_NAME + "."
+        return "block." + Strings.STANDARD_BLOCKS_NAME + "."
                 + subNames[is.getItemDamage()];
     }
-
+    
     @Override
     public int getMetadata(int damageValue) {
         return damageValue;

@@ -1,15 +1,20 @@
 package uk.co.alteff4.mm.item;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import uk.co.alteff4.mm.api.registry.MaterialRegistry;
 import uk.co.alteff4.mm.lib.Reference;
 import uk.co.alteff4.mm.lib.Strings;
 
@@ -25,21 +30,20 @@ import uk.co.alteff4.mm.lib.Strings;
  */
 public class ItemMat extends ItemMM {
     @SideOnly(Side.CLIENT)
-    private Icon[] icons;
+    private HashMap<String, Icon[]> icons;
 
-    private String texturePrefix;
-
-    public ItemMat(int id, String texturePrefix) {
+    public ItemMat(int id) {
         super(id);
         this.setCreativeTab(Reference.CREATIVE_TAB_MM);
         this.setHasSubtypes(true);
-        this.texturePrefix = texturePrefix;
-        this.icons = new Icon[Strings.tierNames.length];
+        this.setUnlocalizedName(Strings.MATERIAL_NAME);
+        this.icons = new HashMap<String, Icon[]>();
     }
 
     @Override
     public String getUnlocalizedName(ItemStack is) {
-        return this.getUnlocalizedName() + "."
+        String name = is.getTagCompound().getString("MaterialType");
+        return this.getUnlocalizedName() + "." + name + "."
                 + Strings.tierNames[is.getItemDamage()];
     }
 
@@ -47,26 +51,52 @@ public class ItemMat extends ItemMM {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(int unk, CreativeTabs tabs, List list) {
-        for (int i = 0; i < Strings.tierNames.length; i++)
-            list.add(new ItemStack(this, 1, i));
+        Iterator<String> keyIter = MaterialRegistry.getKeyIterator();
+        while (keyIter.hasNext()) {
+            String key = keyIter.next();
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setString("MaterialType", key);
+            for (int i = 0; i < Strings.tierNames.length; i++) {
+                ItemStack is = new ItemStack(this, 1, i);
+                is.setTagCompound(tag);
+                list.add(is);
+            }
+        }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister) {
-        for (int i = 0; i < Strings.tierNames.length; i++) {
-            String rawName = Strings.tierNames[i];
-            String upperCase = Character.toUpperCase(rawName.charAt(0))
-                    + rawName.substring(1);
-            icons[i] = iconRegister.registerIcon("mm:" + texturePrefix
-                    + upperCase);
+        Iterator<String> keyIter = MaterialRegistry.getKeyIterator();
+        while (keyIter.hasNext()) {
+            String key = keyIter.next();
+            Icon[] tempIcons = new Icon[Strings.tierNames.length];
+            for (int i = 0; i < Strings.tierNames.length; i++) {
+                String rawName = Strings.tierNames[i];
+                String upperCase = Character.toUpperCase(rawName.charAt(0))
+                        + rawName.substring(1);
+                tempIcons[i] = iconRegister.registerIcon("mm:"
+                        + key + upperCase);
+            }
+            icons.put(key, tempIcons);
         }
     }
     
     @Override
-    @SideOnly(Side.CLIENT)
-    public Icon getIconFromDamage(int dmg) {
-        return icons[dmg];
+    public Icon getIcon(ItemStack stack, int renderPass, EntityPlayer player,
+            ItemStack usingItem, int useRemaining) {
+        
+        if (stack.hasTagCompound()) {
+            String key = stack.getTagCompound().getString("MaterialType");
+            if (MaterialRegistry.containsMaterial(key)) {
+                return icons.get(key)[stack.getItemDamage()];
+            }
+        } else {
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setString("MaterialType", "stone");
+            stack.setTagCompound(tag);
+        }
+        return null;
     }
 
     @Override
