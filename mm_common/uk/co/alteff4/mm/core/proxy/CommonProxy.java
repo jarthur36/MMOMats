@@ -6,6 +6,7 @@ import uk.co.alteff4.mm.client.gui.inventory.GuiHearth;
 import uk.co.alteff4.mm.inventory.ContainerHearth;
 import uk.co.alteff4.mm.lib.GuiIds;
 import uk.co.alteff4.mm.tileentity.TileAnvil;
+import uk.co.alteff4.mm.tileentity.TileChimney;
 import uk.co.alteff4.mm.tileentity.TileHearth;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -52,6 +53,7 @@ public class CommonProxy implements IGuiHandler {
     public void registerTileEntities() {
         GameRegistry.registerTileEntity(TileAnvil.class, "tileMMAnvil");
         GameRegistry.registerTileEntity(TileHearth.class, "tileHearth");
+        GameRegistry.registerTileEntity(TileChimney.class, "tileChimney");
     }
 
     public void sendRequestEventPacket(byte eventType, int originX,

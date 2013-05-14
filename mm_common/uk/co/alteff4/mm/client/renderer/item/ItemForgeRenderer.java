@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.FMLClientHandler;
 
 import uk.co.alteff4.mm.client.model.ModelAnvil;
+import uk.co.alteff4.mm.client.model.ModelChimney;
 import uk.co.alteff4.mm.client.model.ModelHearth;
 import uk.co.alteff4.mm.lib.Textures;
 import net.minecraft.item.ItemStack;
@@ -14,10 +15,12 @@ public class ItemForgeRenderer implements IItemRenderer {
     @SuppressWarnings("unused")
     private ModelAnvil modelAnvil;
     private ModelHearth modelHearth;
+    private ModelChimney modelChimney;
 
     public ItemForgeRenderer() {
         // modelAnvil = new ModelAnvil();
         modelHearth = new ModelHearth();
+        modelChimney = new ModelChimney();
     }
 
     @Override
@@ -37,16 +40,20 @@ public class ItemForgeRenderer implements IItemRenderer {
             case ENTITY: {
                 if (item.getItemDamage() == 0)
                     renderAnvil(0f, 0f, 0f, 0.5f);
-                else
-                    renderHearth(0f, 0f, 0f, 1f);
+                else if (item.getItemDamage() == 1)
+                    renderHearth(0f, 1f, 0f, 1f);
+                else if (item.getItemDamage() == 3)
+                    renderChimney(0f, 1F, 0F, 1F);
                 return;
             }
 
             case EQUIPPED: {
                 if (item.getItemDamage() == 0)
                     renderAnvil(0f, 1f, 1f, 0.5f);
-                else
+                else if (item.getItemDamage() == 1)
                     renderHearth(0f, 2F, 0F, 1F);
+                else if (item.getItemDamage() == 3)
+                    renderChimney(0f, 2F, 0F, 1F);
                 return;
             }
 
@@ -54,14 +61,31 @@ public class ItemForgeRenderer implements IItemRenderer {
                 if (item.getItemDamage() == 0) {
                     renderAnvil(0f, 0f, 0f, 0.5f);
                     return;
-                } else
+                } else if (item.getItemDamage() == 1)
                     renderHearth(0f, 1.25f, 0f, 1F);
+                else if (item.getItemDamage() == 3)
+                    renderChimney(0f, 1.0F, 0F, 1F);
                 return;
             }
 
             default:
                 return;
         }
+    }
+
+    private void renderChimney(float x, float y, float z, float scale) {
+        GL11.glPushMatrix();
+
+        // Disable Lighting Calculations
+        GL11.glTranslatef((float) x, (float) y, (float) z);
+        GL11.glScalef(scale, scale, scale);
+        FMLClientHandler.instance().getClient().renderEngine
+                .bindTexture(Textures.MODEL_CHIMNEY);
+        GL11.glRotatef(180, 1, 0, 0);
+
+        modelChimney.render();
+
+        GL11.glPopMatrix();
     }
 
     private void renderHearth(float x, float y, float z, float scale) {

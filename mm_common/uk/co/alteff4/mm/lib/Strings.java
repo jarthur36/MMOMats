@@ -19,6 +19,7 @@ public class Strings {
     public static final String ANVIL_NAME = "anvil";
     public static final String HEARTH_NAME = "hearth";
     public static final String BELLOWS_NAME = "bellows";
+    public static final String CHIMNEY_NAME = "chimney";
     
     /* Container names */
     public static final String CONTAINER_INVENTORY = "container.inventory";

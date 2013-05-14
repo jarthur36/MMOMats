@@ -17,10 +17,11 @@ import net.minecraft.item.ItemStack;
 public class ItemBlockForge extends ItemBlock {
 
     private final static String[] subNames = { Strings.ANVIL_NAME,
-            Strings.HEARTH_NAME, Strings.BELLOWS_NAME };
+            Strings.HEARTH_NAME, Strings.BELLOWS_NAME, Strings.CHIMNEY_NAME };
 
     public ItemBlockForge(int id) {
         super(id);
+        this.setHasSubtypes(true);
         this.setUnlocalizedName(Strings.FORGE_NORMAL_NAME);
     }
 

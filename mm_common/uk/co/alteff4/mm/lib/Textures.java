@@ -18,6 +18,7 @@ public class Textures {
 
     public static final String MODEL_ANVIL = MODEL_LOC + "anvil.png";
     public static final String MODEL_COAL = MODEL_LOC + "coal.png";
+    public static final String MODEL_CHIMNEY = MODEL_LOC + "chimney.png";
     
     public static final String GUI_HEARTH = GUI_LOC + "hearth.png";
 }

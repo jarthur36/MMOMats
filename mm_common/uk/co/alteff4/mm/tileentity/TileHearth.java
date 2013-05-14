@@ -1,6 +1,7 @@
 package uk.co.alteff4.mm.tileentity;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
+import uk.co.alteff4.mm.lib.BlockIds;
 import uk.co.alteff4.mm.lib.Strings;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -30,11 +31,55 @@ public class TileHearth extends TileMM implements IInventory {
     public static final int FUEL_INVENTORY_INDEX = 1;
     public static final int OUTPUT_INVENTORY_INDEX = 2;
 
+    private boolean validMultiblock;
+
     public TileHearth() {
         super();
         inventory = new ItemStack[INVENTORY_SIZE];
         setHeat(0);
         setCoalAmount(0);
+        validMultiblock = false;
+    }
+
+    public boolean isMultiblockPart() {
+        return validMultiblock;
+    }
+
+    public void validateMultiBlock() {
+        int validBottomBlocks = 0;
+        int validMidBlocks = 0;
+        int validUpperBlocks = 0;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (this.isValidForgePart(xCoord - i, yCoord, zCoord - j)
+                        && !(i == 0 && j == 0))
+                    validBottomBlocks++;
+            }
+        }
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (this.isValidForgePart(xCoord - i, yCoord + 1, zCoord - j))
+                    validMidBlocks++;
+            }
+        }
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (this.isValidForgePart(xCoord - i, yCoord + 2, zCoord - j)
+                        && !(i == 0 && j == 0))
+                    validUpperBlocks++;
+            }
+        }
+        if (validBottomBlocks == 8
+                && validMidBlocks == 5
+                && validUpperBlocks == 5
+                && worldObj.getBlockId(xCoord, yCoord + 1, zCoord) == 0
+                && worldObj.getBlockTileEntity(xCoord, yCoord + 2, zCoord) instanceof TileChimney
+                && worldObj.getBlockTileEntity(xCoord, yCoord + 3, zCoord) instanceof TileChimney)
+            validMultiblock = true;
+    }
+    
+    public void invalidateMultiblock() {
+        validMultiblock = false;
     }
 
     public int getHeat() {
@@ -60,7 +105,7 @@ public class TileHearth extends TileMM implements IInventory {
 
         if (!worldObj.isRemote) {
             if (inventory[FUEL_INVENTORY_INDEX] != null) {
-                if(getCoalAmount() != inventory[FUEL_INVENTORY_INDEX].stackSize) {
+                if (getCoalAmount() != inventory[FUEL_INVENTORY_INDEX].stackSize) {
                     setCoalAmount(inventory[FUEL_INVENTORY_INDEX].stackSize);
                     hasToUpd = true;
                 }
@@ -179,6 +224,8 @@ public class TileHearth extends TileMM implements IInventory {
                 inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
             }
         }
+
+        validMultiblock = nbtTagCompound.getBoolean("MultiblockValid");
     }
 
     @Override
@@ -197,6 +244,7 @@ public class TileHearth extends TileMM implements IInventory {
             }
         }
         nbtTagCompound.setTag("Items", tagList);
+        nbtTagCompound.setBoolean("MultiblockValid", validMultiblock);
     }
 
     @Override
@@ -208,6 +256,15 @@ public class TileHearth extends TileMM implements IInventory {
     @Override
     public boolean isStackValidForSlot(int i, ItemStack itemstack) {
         return true;
+    }
+
+    public boolean isValidForgePart(int x, int y, int z) {
+        return worldObj.getBlockId(x, y, z) == BlockIds.STANDARD
+                && worldObj.getBlockMetadata(x, y, z) == 0;
+    }
+
+    public boolean isAirBlock(int x, int y, int z) {
+        return worldObj.getBlockId(x, y, z) == 0;
     }
 
 }

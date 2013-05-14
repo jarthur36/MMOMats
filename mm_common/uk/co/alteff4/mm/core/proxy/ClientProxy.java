@@ -8,6 +8,7 @@ import uk.co.alteff4.mm.client.renderer.item.ItemForgeRenderer;
 import uk.co.alteff4.mm.client.renderer.tileentity.TileEntityForgeRenderer;
 import uk.co.alteff4.mm.lib.BlockIds;
 import uk.co.alteff4.mm.tileentity.TileAnvil;
+import uk.co.alteff4.mm.tileentity.TileChimney;
 import uk.co.alteff4.mm.tileentity.TileHearth;
 import uk.co.alteff4.mm.tileentity.TileMM;
 import net.minecraft.tileentity.TileEntity;
@@ -54,6 +55,8 @@ public class ClientProxy extends CommonProxy {
     public void initRenderingAndTextures() {
         TileEntityForgeRenderer forgeRenderer = new TileEntityForgeRenderer();
 
+        ClientRegistry.bindTileEntitySpecialRenderer(TileChimney.class,
+                forgeRenderer);
         ClientRegistry.bindTileEntitySpecialRenderer(TileAnvil.class,
                 forgeRenderer);
         ClientRegistry.bindTileEntitySpecialRenderer(TileHearth.class,

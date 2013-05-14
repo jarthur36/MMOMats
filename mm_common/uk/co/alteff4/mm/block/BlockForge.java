@@ -7,11 +7,13 @@ import uk.co.alteff4.mm.MMOMats;
 import uk.co.alteff4.mm.lib.GuiIds;
 import uk.co.alteff4.mm.lib.Reference;
 import uk.co.alteff4.mm.tileentity.TileAnvil;
+import uk.co.alteff4.mm.tileentity.TileChimney;
 import uk.co.alteff4.mm.tileentity.TileHearth;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -42,6 +44,7 @@ public class BlockForge extends BlockMM {
     public void getSubBlocks(int unknown, CreativeTabs tab, List subItems) {
         subItems.add(new ItemStack(this, 1, 0));
         subItems.add(new ItemStack(this, 1, 1));
+        subItems.add(new ItemStack(this, 1, 3));
     }
 
     @Override
@@ -49,6 +52,33 @@ public class BlockForge extends BlockMM {
     public void registerIcons(IconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase()
                 + ":brickFire");
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z,
+            EntityLiving entityLiving, ItemStack itemStack) {
+        super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
+        if (!world.isRemote && world.getBlockMetadata(x, y, z) == 1) {
+            ((TileHearth) world.getBlockTileEntity(x, y, z))
+                    .validateMultiBlock();
+        }
+    }
+
+    @Override
+    public void breakBlock(World world, int x, int y, int z, int unk1, int unk2) {
+        super.breakBlock(world, x, y, z, unk1, unk2);
+
+        if (world.getBlockMetadata(x, y, z) == 3) {
+            if (world.getBlockTileEntity(x, y - 2, z) instanceof TileHearth) {
+                TileHearth te = (TileHearth) world.getBlockTileEntity(x, y - 2,
+                        z);
+                te.invalidateMultiblock();
+            } else if (world.getBlockTileEntity(x, y - 3, z) instanceof TileHearth) {
+                TileHearth te = (TileHearth) world.getBlockTileEntity(x, y - 3,
+                        z);
+                te.invalidateMultiblock();
+            }
+        }
     }
 
     @SuppressWarnings("rawtypes")
@@ -73,7 +103,30 @@ public class BlockForge extends BlockMM {
         this.setBlockBounds(0, 0, 0, 1, 1, 1);
         super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
     }
-    
+
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, int unk) {
+        super.onNeighborBlockChange(world, x, y, z, unk);
+        if (world.getBlockMetadata(x, y, z) == 1) {
+            if (((TileHearth) world.getBlockTileEntity(x, y, z))
+                    .isMultiblockPart())
+                ((TileHearth) world.getBlockTileEntity(x, y, z))
+                        .invalidateMultiblock();
+            else
+                ((TileHearth) world.getBlockTileEntity(x, y, z))
+                        .validateMultiBlock();
+        }
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess access, int x, int y,
+            int z) {
+        if (access.getBlockMetadata(x, y, z) == 1)
+            setBlockBounds(0F, 0F, 0F, 1.0F, 0.5625F, 1.0F);
+        else
+            setBlockBounds(0F, 0F, 0F, 1F, 1F, 1F);
+    }
+
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z,
             EntityPlayer player, int par6, float par7, float par8, float par9) {
@@ -81,6 +134,11 @@ public class BlockForge extends BlockMM {
             case 0:
                 return false;
             case 1:
+                if (player.isSneaking()) {
+                    ((TileHearth) world.getBlockTileEntity(x, y, z))
+                            .validateMultiBlock();
+                    return false;
+                }
                 player.openGui(MMOMats.instance, GuiIds.HEARTH, world, x, y, z);
                 return true;
         }
@@ -124,6 +182,8 @@ public class BlockForge extends BlockMM {
                 return new TileAnvil();
             case 1:
                 return new TileHearth();
+            case 3:
+                return new TileChimney();
         }
         return null;
     }

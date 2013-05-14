@@ -6,7 +6,6 @@ import java.util.List;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
@@ -75,17 +74,17 @@ public class ItemMat extends ItemMM {
                 String rawName = Strings.tierNames[i];
                 String upperCase = Character.toUpperCase(rawName.charAt(0))
                         + rawName.substring(1);
-                tempIcons[i] = iconRegister.registerIcon("mm:"
-                        + key + upperCase);
+                tempIcons[i] = iconRegister.registerIcon("mm:" + key
+                        + upperCase);
             }
             icons.put(key, tempIcons);
         }
     }
-    
+
     @Override
-    public Icon getIcon(ItemStack stack, int renderPass, EntityPlayer player,
-            ItemStack usingItem, int useRemaining) {
-        
+    @SideOnly(Side.CLIENT)
+    public Icon getIcon(ItemStack stack, int renderPass) {
+
         if (stack.hasTagCompound()) {
             String key = stack.getTagCompound().getString("MaterialType");
             if (MaterialRegistry.containsMaterial(key)) {
@@ -97,6 +96,17 @@ public class ItemMat extends ItemMM {
             stack.setTagCompound(tag);
         }
         return null;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses() {
+        return true;
+    }
+
+    @Override
+    public int getRenderPasses(int metadata) {
+        return 1;
     }
 
     @Override
