@@ -7,6 +7,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.ForgeDirection;
 
 /**
  * 
@@ -27,22 +28,27 @@ public class TileHearth extends TileMM implements IInventory {
 
     private final int INVENTORY_SIZE = 3;
 
-    public static final int INPUT_INVENTORY_INDEX = 0;
-    public static final int FUEL_INVENTORY_INDEX = 1;
+    public static final int INPUT_INVENTORY_INDEX = 1;
+    public static final int FUEL_INVENTORY_INDEX = 0;
     public static final int OUTPUT_INVENTORY_INDEX = 2;
-
-    private boolean validMultiblock;
 
     public TileHearth() {
         super();
         inventory = new ItemStack[INVENTORY_SIZE];
         setHeat(0);
         setCoalAmount(0);
-        validMultiblock = false;
+        setIsMultiPart(false);
     }
 
     public boolean isMultiblockPart() {
-        return validMultiblock;
+        return getInt("validMultiBlock") == 1;
+    }
+
+    private void setIsMultiPart(boolean value) {
+        if (value)
+            setInt("validMultiBlock", 1);
+        else
+            setInt("validMultiBlock", 0);
     }
 
     public void validateMultiBlock() {
@@ -69,17 +75,91 @@ public class TileHearth extends TileMM implements IInventory {
                     validUpperBlocks++;
             }
         }
+        ForgeDirection off = ForgeDirection.UP;
+        if (validMidBlocks == 5) {
+            // Checking South face of the structure
+            if (!(worldObj.getBlockId(xCoord, yCoord + 1, zCoord + 1) == 0
+                    && worldObj.getBlockId(xCoord - 1, yCoord + 1, zCoord + 1) == 0 && worldObj
+                        .getBlockId(xCoord + 1, yCoord + 1, zCoord + 1) == 0)) {
+                validMidBlocks = 4;
+            } else {
+                off = ForgeDirection.SOUTH;
+            }
+
+            // Checking North face of the structure
+            if (!(worldObj.getBlockId(xCoord, yCoord + 1, zCoord - 1) == 0
+                    && worldObj.getBlockId(xCoord - 1, yCoord + 1, zCoord - 1) == 0 && worldObj
+                        .getBlockId(xCoord + 1, yCoord + 1, zCoord - 1) == 0)) {
+                if (off == ForgeDirection.UP)
+                    validMidBlocks = 4;
+            } else {
+                if (off == ForgeDirection.UP) {
+                    off = ForgeDirection.NORTH;
+                    validMidBlocks = 5;
+                } else {
+                    validMidBlocks = 4;
+                }
+            }
+
+            // Checking West face of the structure
+            int offX = ForgeDirection.WEST.offsetX;
+            if (!(worldObj.getBlockId(xCoord + offX, yCoord + 1, zCoord) == 0
+                    && worldObj.getBlockId(xCoord + offX, yCoord + 1,
+                            zCoord - 1) == 0 && worldObj.getBlockId(xCoord
+                    + offX, yCoord + 1, zCoord + 1) == 0)) {
+                if (off == ForgeDirection.UP)
+                    validMidBlocks = 4;
+            } else {
+                if (off == ForgeDirection.UP) {
+                    off = ForgeDirection.WEST;
+                    validMidBlocks = 5;
+                } else {
+                    validMidBlocks = 4;
+                }
+            }
+
+            offX = ForgeDirection.EAST.offsetX;
+            if (!(worldObj.getBlockId(xCoord + offX, yCoord + 1, zCoord) == 0
+                    && worldObj.getBlockId(xCoord + offX, yCoord + 1,
+                            zCoord - 1) == 0 && worldObj.getBlockId(xCoord
+                    + offX, yCoord + 1, zCoord + 1) == 0)) {
+                if (off == ForgeDirection.UP)
+                    validMidBlocks = 4;
+            } else {
+                if (off == ForgeDirection.UP) {
+                    off = ForgeDirection.EAST;
+                    validMidBlocks = 5;
+                } else {
+                    validMidBlocks = 4;
+                }
+            }
+        }
+        if (validUpperBlocks == 5 && !off.equals(ForgeDirection.UP)) {
+            int offX = off.offsetX;
+            int offZ = off.offsetZ;
+            if (!(worldObj.getBlockId(xCoord + offX, yCoord + 2, zCoord + offZ) == 0
+                    && worldObj.getBlockId(xCoord + offX, yCoord + 2, zCoord
+                            + offZ) == 0 && worldObj.getBlockId(xCoord + offX,
+                    yCoord + 2, zCoord + offZ) == 0)) {
+                validUpperBlocks = 4;
+            }
+        }
         if (validBottomBlocks == 8
                 && validMidBlocks == 5
                 && validUpperBlocks == 5
                 && worldObj.getBlockId(xCoord, yCoord + 1, zCoord) == 0
                 && worldObj.getBlockTileEntity(xCoord, yCoord + 2, zCoord) instanceof TileChimney
-                && worldObj.getBlockTileEntity(xCoord, yCoord + 3, zCoord) instanceof TileChimney)
-            validMultiblock = true;
+                && worldObj.getBlockTileEntity(xCoord, yCoord + 3, zCoord) instanceof TileChimney) {
+            setIsMultiPart(true);
+            PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32,
+                    worldObj.provider.dimensionId, getDescriptionPacket());
+        }
     }
-    
+
     public void invalidateMultiblock() {
-        validMultiblock = false;
+        setIsMultiPart(false);
+        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32,
+                worldObj.provider.dimensionId, getDescriptionPacket());
     }
 
     public int getHeat() {
@@ -190,7 +270,8 @@ public class TileHearth extends TileMM implements IInventory {
     @Override
     public String getInvName() {
 
-        return this.hasCustomName() ? this.getCustomName()
+        return this.hasCustomName() ? this.getCustomName() : this
+                .isMultiblockPart() ? Strings.CONTAINER_FORGE
                 : Strings.CONTAINER_HEARTH;
     }
 
@@ -224,8 +305,6 @@ public class TileHearth extends TileMM implements IInventory {
                 inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
             }
         }
-
-        validMultiblock = nbtTagCompound.getBoolean("MultiblockValid");
     }
 
     @Override
@@ -244,7 +323,6 @@ public class TileHearth extends TileMM implements IInventory {
             }
         }
         nbtTagCompound.setTag("Items", tagList);
-        nbtTagCompound.setBoolean("MultiblockValid", validMultiblock);
     }
 
     @Override

@@ -2,7 +2,9 @@ package uk.co.alteff4.mm.core.proxy;
 
 import java.util.HashMap;
 
+import uk.co.alteff4.mm.client.gui.inventory.GuiForge;
 import uk.co.alteff4.mm.client.gui.inventory.GuiHearth;
+import uk.co.alteff4.mm.inventory.ContainerForge;
 import uk.co.alteff4.mm.inventory.ContainerHearth;
 import uk.co.alteff4.mm.lib.GuiIds;
 import uk.co.alteff4.mm.tileentity.TileAnvil;
@@ -77,9 +79,15 @@ public class CommonProxy implements IGuiHandler {
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world,
             int x, int y, int z) {
-        if(ID == GuiIds.HEARTH) {
-            TileHearth tileHearth = (TileHearth) world.getBlockTileEntity(x,y,z);
-            return new ContainerHearth(player.inventory, tileHearth);
+        if (ID == GuiIds.HEARTH) {
+            TileHearth tileHearth = (TileHearth) world.getBlockTileEntity(x, y,
+                    z);
+            if (tileHearth.isMultiblockPart()) {
+                return new ContainerForge(player.inventory, tileHearth);
+            } else {
+                return new ContainerHearth(player.inventory, tileHearth);
+            }
+
         }
         return null;
     }
@@ -87,9 +95,14 @@ public class CommonProxy implements IGuiHandler {
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world,
             int x, int y, int z) {
-        if(ID == GuiIds.HEARTH) {
-            TileHearth tileHearth = (TileHearth) world.getBlockTileEntity(x,y,z);
-            return new GuiHearth(player.inventory, tileHearth);
+        if (ID == GuiIds.HEARTH) {
+            TileHearth tileHearth = (TileHearth) world.getBlockTileEntity(x, y,
+                    z);
+            if (tileHearth.isMultiblockPart()) {
+                return new GuiForge(player.inventory, tileHearth);
+            } else {
+                return new GuiHearth(player.inventory, tileHearth);
+            }
         }
         return null;
     }

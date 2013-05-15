@@ -24,6 +24,7 @@ public class Strings {
     /* Container names */
     public static final String CONTAINER_INVENTORY = "container.inventory";
     public static final String CONTAINER_HEARTH = "container.hearth";
+    public static final String CONTAINER_FORGE = "container.forge";
     
     /* Tile Entity NBT keys */
     public static final String NBT_TE_DIRECTION = "orientation";

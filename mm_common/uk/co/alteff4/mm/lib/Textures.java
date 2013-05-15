@@ -21,4 +21,5 @@ public class Textures {
     public static final String MODEL_CHIMNEY = MODEL_LOC + "chimney.png";
     
     public static final String GUI_HEARTH = GUI_LOC + "hearth.png";
+    public static final String GUI_FORGE = GUI_LOC + "forge.png";
 }

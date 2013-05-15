@@ -1,9 +1,12 @@
 package uk.co.alteff4.mm.block;
 
 import java.util.List;
+import java.util.Random;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import uk.co.alteff4.mm.MMOMats;
+import uk.co.alteff4.mm.lib.BlockIds;
 import uk.co.alteff4.mm.lib.GuiIds;
 import uk.co.alteff4.mm.lib.Reference;
 import uk.co.alteff4.mm.tileentity.TileAnvil;
@@ -137,7 +140,7 @@ public class BlockForge extends BlockMM {
                 if (player.isSneaking()) {
                     ((TileHearth) world.getBlockTileEntity(x, y, z))
                             .validateMultiBlock();
-                    return false;
+                    return true;
                 }
                 player.openGui(MMOMats.instance, GuiIds.HEARTH, world, x, y, z);
                 return true;
@@ -193,4 +196,55 @@ public class BlockForge extends BlockMM {
         return -1;
     }
 
+    @SideOnly(Side.CLIENT)
+    /**
+     * A randomly called display update to be able to add particles or other items for display
+     */
+    public void randomDisplayTick(World world, int x, int y, int z,
+            Random random) {
+        int meta = world.getBlockMetadata(x, y, z);
+        double xMod = (double) ((float) x + 0.5F);
+        double yMod = (double) ((float) y + random.nextFloat() * 6.0F / 16.0F + 0.5F);
+        double zMod = (double) ((float) z + 0.5F);
+        int multi = random.nextInt();
+        multi = multi < 0 ? -1 : 1;
+        float mod1 = random.nextFloat() * 0.3F * multi;
+        float mod2 = random.nextFloat() * 0.3F * multi;
+
+        if (meta == 1) {
+            if (((TileHearth) world.getBlockTileEntity(x, y, z)).getState() == 1) {
+
+                world.spawnParticle("flame", (double) (xMod - mod1), yMod,
+                        (double) (zMod + mod2), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("smoke", (double) (xMod - mod1), yMod,
+                        (double) (zMod + mod2), 0.0D, 0.0D, 0.0D);
+            }
+        } else if (meta == 3) {
+            if (world.getBlockId(x, y + 1, z) != BlockIds.FORGE) {
+                boolean spawnParticle = false;
+                for (int i = 0; i <= 8; i++) {
+                    if (world.getBlockTileEntity(x, y - i, z) instanceof TileHearth)
+                        if (((TileHearth) world.getBlockTileEntity(x, y - i, z))
+                                .getState() == 1)
+                            if (((TileHearth) world.getBlockTileEntity(x,
+                                    y - i, z)).isMultiblockPart()) {
+                                spawnParticle = true;
+                                break;
+                            }
+                }
+                if (spawnParticle) {
+                    world.spawnParticle("smoke", (double) (xMod - mod1), yMod,
+                            (double) (zMod + mod2), 0.0D, 0.0D, 0.0D);
+                    world.spawnParticle("smoke", (double) (xMod + mod1), yMod,
+                            (double) (zMod - mod2), 0.0D, 0.0D, 0.0D);
+                    mod1 = random.nextFloat() * 0.3F * multi;
+                    mod2 = random.nextFloat() * 0.3F * multi;
+                    world.spawnParticle("smoke", (double) (xMod - mod1), yMod,
+                            (double) (zMod + mod2), 0.0D, 0.0D, 0.0D);
+                    world.spawnParticle("smoke", (double) (xMod + mod1), yMod,
+                            (double) (zMod - mod2), 0.0D, 0.0D, 0.0D);
+                }
+            }
+        }
+    }
 }

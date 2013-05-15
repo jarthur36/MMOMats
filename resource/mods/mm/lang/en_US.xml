@@ -24,6 +24,7 @@
 	<entry key="item.mmMaterial.iron.tier6.name">Ancient Iron Core</entry>
 	
 	<entry key="container.hearth">Hearth</entry>
+	<entry key="container.forge">Forge</entry>
 	
 	<entry key="term.heat">Heat</entry>
 </properties>

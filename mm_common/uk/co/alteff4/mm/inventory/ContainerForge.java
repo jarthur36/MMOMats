@@ -18,15 +18,26 @@ import net.minecraft.tileentity.TileEntityFurnace;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-public class ContainerHearth extends Container {
+public class ContainerForge extends Container {
 
     private final int PLAYER_INVENTORY_ROWS = 3;
     private final int PLAYER_INVENTORY_COLUMNS = 9;
 
-    public ContainerHearth(InventoryPlayer inventoryPlayer, TileHearth tileHearth) {
+    public ContainerForge(InventoryPlayer inventoryPlayer, TileHearth tileHearth) {
 
         this.addSlotToContainer(new Slot(tileHearth,
-                TileHearth.FUEL_INVENTORY_INDEX, 80, 28) {
+                TileHearth.INPUT_INVENTORY_INDEX, 56, 17));
+
+        this.addSlotToContainer(new Slot(tileHearth,
+                TileHearth.OUTPUT_INVENTORY_INDEX, 116, 35) {
+            @Override
+            public boolean isItemValid(ItemStack itemstack) {
+                return false;
+            }
+        });
+
+        this.addSlotToContainer(new Slot(tileHearth,
+                TileHearth.FUEL_INVENTORY_INDEX, 56, 53) {
             @Override
             public boolean isItemValid(ItemStack itemstack) {
                 return TileEntityFurnace.isItemFuel(itemstack);

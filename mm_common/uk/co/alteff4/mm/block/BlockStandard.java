@@ -1,7 +1,6 @@
 package uk.co.alteff4.mm.block;
 
 import java.util.List;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import uk.co.alteff4.mm.MMOMats;
