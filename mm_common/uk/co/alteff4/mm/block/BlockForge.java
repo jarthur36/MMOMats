@@ -172,6 +172,8 @@ public class BlockForge extends BlockMM {
     public int damageDropped(int metadata) {
         return metadata;
     }
+    
+    
 
     @Override
     public TileEntity createNewTileEntity(World world) {
