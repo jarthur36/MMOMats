@@ -8,7 +8,8 @@
 	<entry key="block.mmForge.chimney.name">Chimney</entry>
 	
 	<entry key="block.mmBlocks.fireResistant.name">Fire resistant brick</entry>
-	
+	<entry key="block.mmArcaneForge.arcaneForge.name">Arcane Forge</entry>
+
 	<entry key="item.mmMaterial.stone.tier1.name">Stone Sliver</entry>
 	<entry key="item.mmMaterial.stone.tier2.name">Rough Stone</entry>
 	<entry key="item.mmMaterial.stone.tier3.name">Stone</entry>
