@@ -9,22 +9,22 @@ import uk.co.alteff4.mm.lib.Strings;
 import net.minecraft.block.Block;
 
 public class ModBlocks {
-    public static Block standardBlocks;
-    public static Block forgeBlocks;
-    static Block arcaneForgeBlocks;
+	public static Block standardBlocks;
+	public static Block forgeBlocks;
+	static Block arcaneForgeBlocks;
 
-    public static void init() {
-        standardBlocks = new BlockStandard(BlockIds.STANDARD);
-        forgeBlocks = new BlockForge(BlockIds.FORGE);
-       arcaneForgeBlocks = new BlockArcaneForge(502);
+	public static void init() {
+		standardBlocks = new BlockStandard(BlockIds.STANDARD);
+		forgeBlocks = new BlockForge(BlockIds.FORGE);
+		arcaneForgeBlocks = new BlockArcaneForge(BlockIds.ARCANE_FORGE);
 
-        GameRegistry.registerBlock(standardBlocks, ItemBlockStandard.class,
-                Strings.STANDARD_BLOCKS_NAME);
-        GameRegistry.registerBlock(forgeBlocks, ItemBlockForge.class,
-                Strings.FORGE_NORMAL_NAME);
-       GameRegistry.registerBlock(arcaneForgeBlocks, "arcaneForge");
-       
-       LanguageRegistry.addName(arcaneForgeBlocks, "Arcane Forge");
-    }
+		GameRegistry.registerBlock(standardBlocks, ItemBlockStandard.class,
+				Strings.STANDARD_BLOCKS_NAME);
+		GameRegistry.registerBlock(forgeBlocks, ItemBlockForge.class,
+				Strings.FORGE_NORMAL_NAME);
+		GameRegistry.registerBlock(arcaneForgeBlocks, "arcaneForge");
+
+		LanguageRegistry.addName(arcaneForgeBlocks, "Arcane Forge");
+	}
 
 }

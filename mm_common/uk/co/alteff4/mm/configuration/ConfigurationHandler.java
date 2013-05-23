@@ -37,6 +37,9 @@ public class ConfigurationHandler {
             BlockIds.STANDARD = configuration.getBlock(
                     Strings.STANDARD_BLOCKS_NAME, BlockIds.STANDARD_DEFAULT)
                     .getInt(BlockIds.STANDARD_DEFAULT);
+            BlockIds.ARCANE_FORGE = configuration.getBlock(
+                    Strings.FORGE_ARCANE_NAME, BlockIds.ARCANE_FORGE_DEFAULT)
+                    .getInt(BlockIds.ARCANE_FORGE_DEFAULT);
             /* Block property configs */
 
             /* Item configs */

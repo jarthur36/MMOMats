@@ -22,8 +22,7 @@ public class Strings {
     public static final String CHIMNEY_NAME = "chimney";
     
     /* Arcane Forge */
-    public static final String ARCANE_FORGE_NORMAL_NAME = "mmArcaneForge";
-    public static final String ARCANE_FORGE_NAME = "arcaneForge";
+    public static final String FORGE_ARCANE_NAME = "arcaneForge";
     
     /* Container names */
     public static final String CONTAINER_INVENTORY = "container.inventory";
