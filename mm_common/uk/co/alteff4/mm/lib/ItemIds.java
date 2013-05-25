@@ -11,7 +11,7 @@ package uk.co.alteff4.mm.lib;
  *
  */
 public class ItemIds {
-    public static final int MATERIALS_DEFAULT = 5001;
+    public static final int BELLOWS_DEFAULT = 5002;
     
-    public static int MATERIALS;
+    public static int BELLOWS;
 }

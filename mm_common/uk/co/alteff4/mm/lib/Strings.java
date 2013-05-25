@@ -4,18 +4,20 @@ public class Strings {
 
     public static final String[] tierNames = new String[] { "tier1", "tier2",
             "tier3", "tier4", "tier5", "tier6" };
+    
+    /* Item names */
 
     /* Material names */
-    public static final String MATERIAL_NAME = "mmMaterial";
+    public static final String MATERIAL_NAME = "material";
     public static final String STONE_MAT_NAME = "stone";
     public static final String IRON_MAT_NAME = "iron";
     
     /* Block names */
-    public static final String STANDARD_BLOCKS_NAME = "mmBlocks";
+    public static final String STANDARD_BLOCKS_NAME = "blocks";
     public static final String FIRE_RESISTANT_NAME = "fireResistant";
     
     /* Forge */
-    public static final String FORGE_NORMAL_NAME = "mmForge";
+    public static final String FORGE_NORMAL_NAME = "forge";
     public static final String ANVIL_NAME = "anvil";
     public static final String HEARTH_NAME = "hearth";
     public static final String BELLOWS_NAME = "bellows";

@@ -1,4 +1,4 @@
-package uk.co.alteff4.mm.api.multiio;
+package uk.co.alteff4.mm.api.multiio.recipe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 
 /**
  * 
- * MMO Materials
+ * PaleoSlotFramework
  * 
  * MultiInput
  * 
@@ -20,7 +20,7 @@ import net.minecraft.item.ItemStack;
 public class MultiInput {
 
     private boolean shapeless;
-    private RecipeInput[] inputs;
+    private RecipeItemStack[] inputs;
 
     /**
      * 
@@ -34,10 +34,10 @@ public class MultiInput {
      */
     public MultiInput(boolean shapeless, ItemStack... inputs) {
         this.shapeless = shapeless;
-        ArrayList<RecipeInput> temp = new ArrayList<RecipeInput>();
+        ArrayList<RecipeItemStack> temp = new ArrayList<RecipeItemStack>();
         for (ItemStack stack : inputs)
-            temp.add(new RecipeInput(stack));
-        this.inputs = temp.toArray(this.inputs);
+            temp.add(new RecipeItemStack(stack));
+        this.inputs = temp.toArray(new RecipeItemStack[inputs.length]);
     }
 
     @Override
@@ -80,28 +80,28 @@ public class MultiInput {
      */
     public ItemStack[] getInputStacks() {
         ArrayList<ItemStack> temp = new ArrayList<ItemStack>();
-        for (RecipeInput input : inputs)
+        for (RecipeItemStack input : inputs)
             temp.add(input.getStack());
         return temp.toArray(new ItemStack[inputs.length]);
     }
 
     /**
      * 
-     * Returns an RecipeInput array of all the inputs. Used for internals.
+     * Returns an RecipeItemStack array of all the inputs. Used for internals.
      * 
-     * @return the RecipeInput array of the inputs
+     * @return the RecipeItemStack array of the inputs
      */
-    public RecipeInput[] getInputs() {
+    public RecipeItemStack[] getInputs() {
         return inputs;
     }
 
-    private boolean compareInputs(boolean shapeless, RecipeInput[] inputs1,
-            RecipeInput[] inputs2) {
+    private boolean compareInputs(boolean shapeless, RecipeItemStack[] inputs1,
+            RecipeItemStack[] inputs2) {
         boolean valid = false;
         if (shapeless) {
-            Set<RecipeInput> set1 = new HashSet<RecipeInput>(
+            Set<RecipeItemStack> set1 = new HashSet<RecipeItemStack>(
                     Arrays.asList(inputs1));
-            Set<RecipeInput> set2 = new HashSet<RecipeInput>(
+            Set<RecipeItemStack> set2 = new HashSet<RecipeItemStack>(
                     Arrays.asList(inputs2));
             return set1.containsAll(set2);
         } else {
@@ -113,40 +113,5 @@ public class MultiInput {
             }
         }
         return valid;
-    }
-
-    /**
-     * 
-     * MMO Materials
-     * 
-     * RecipeInput
-     * 
-     * @author PaleoCrafter
-     * @license Lesser GNU Public License v3
-     *          (http://www.gnu.org/licenses/lgpl.html)
-     * 
-     */
-    private class RecipeInput {
-        private ItemStack stack;
-
-        public RecipeInput(ItemStack stack) {
-            this.stack = stack;
-        }
-
-        @Override
-        public int hashCode() {
-            return 0;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (!(obj instanceof RecipeInput))
-                return false;
-            return stack.isItemEqual(((RecipeInput) obj).getStack());
-        }
-
-        public ItemStack getStack() {
-            return stack;
-        }
     }
 }

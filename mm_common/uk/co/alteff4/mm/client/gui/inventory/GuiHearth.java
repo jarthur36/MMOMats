@@ -66,7 +66,7 @@ public class GuiHearth extends GuiContainer {
             ArrayList text = new ArrayList();
             text.add(StatCollector.translateToLocal(Strings.TERM_HEAT)
                     + ":");
-            text.add(tileHearth.getHeat() + "/100");
+            text.add(tileHearth.getHeat() + "/1000");
             this.drawHoveringText(text, x, y, fontRenderer);
         }
     }
@@ -93,6 +93,17 @@ public class GuiHearth extends GuiContainer {
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
+        
+        if (tileHearth.getState() > 0) {
+            int burnTime = tileHearth.getBurnTimeRemainingScaled(12);
+            this.drawTexturedModalRect(xStart + 80,
+                    yStart + 51 + 12 - burnTime, 176, 12 - burnTime, 14,
+                    burnTime + 2);
+        }
+        
+        int heat = (int) Math.floor(tileHearth.getHeat() / 10 / 2);
+        this.drawTexturedModalRect(xStart + 41, yStart + 16 + 50 - heat,
+                176, 64 - heat, 16, heat);
     }
 
 }

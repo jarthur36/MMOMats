@@ -47,6 +47,7 @@ public class ItemForgeRenderer implements IItemRenderer {
                 return;
             }
 
+            case EQUIPPED_FIRST_PERSON:
             case EQUIPPED: {
                 if (item.getItemDamage() == 0)
                     renderAnvil(0f, 1f, 1f, 0.5f);

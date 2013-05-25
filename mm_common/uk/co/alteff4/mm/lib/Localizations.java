@@ -11,7 +11,7 @@ package uk.co.alteff4.mm.lib;
  * 
  */
 public class Localizations {
-    private static final String LANG_RESOURCE_LOCATION = "/mods/mm/lang/";
+    private static final String LANG_RESOURCE_LOCATION = "/mods/mmomats/lang/";
 
     public static String[] localeFiles = {
             LANG_RESOURCE_LOCATION + "de_DE.xml",

@@ -2,6 +2,7 @@ package uk.co.alteff4.mm.item;
 
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import uk.co.alteff4.mm.lib.Reference;
 import uk.co.alteff4.mm.lib.Strings;
 
 /**
@@ -26,10 +27,11 @@ public class ItemBlockStandard extends ItemBlock {
     public String getUnlocalizedName(ItemStack is) {
         if (is.getItemDamage() >= subNames.length)
             return "";
-        return "block." + Strings.STANDARD_BLOCKS_NAME + "."
-                + subNames[is.getItemDamage()];
+        return "block."
+                + Reference.createUnlocalizedName(Strings.STANDARD_BLOCKS_NAME)
+                + "." + subNames[is.getItemDamage()];
     }
-    
+
     @Override
     public int getMetadata(int damageValue) {
         return damageValue;

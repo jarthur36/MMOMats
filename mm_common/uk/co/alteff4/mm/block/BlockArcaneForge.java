@@ -4,7 +4,6 @@ import uk.co.alteff4.mm.lib.Strings;
 import uk.co.alteff4.mm.tileentity.TileArcaneForge;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -23,7 +22,6 @@ public class BlockArcaneForge extends BlockMM {
 
 	public BlockArcaneForge(int id) {
 		super(id, Material.iron);
-		this.setCreativeTab(CreativeTabs.tabMisc);
 		this.setUnlocalizedName(Strings.FORGE_ARCANE_NAME);
 	}
 

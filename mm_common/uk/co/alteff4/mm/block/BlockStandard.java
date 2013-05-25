@@ -30,7 +30,6 @@ public class BlockStandard extends BlockMM {
 
     public BlockStandard(int id) {
         super(id, Material.rock);
-        this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

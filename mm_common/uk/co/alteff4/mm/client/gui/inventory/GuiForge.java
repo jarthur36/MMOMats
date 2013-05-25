@@ -15,14 +15,14 @@ import uk.co.alteff4.mm.lib.Textures;
 import uk.co.alteff4.mm.tileentity.TileHearth;
 
 /**
- *
+ * 
  * MMO Materials
- *
+ * 
  * GuiForge
- *
+ * 
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- *
+ * 
  */
 public class GuiForge extends GuiContainer {
 
@@ -35,7 +35,7 @@ public class GuiForge extends GuiContainer {
         this.xSize = 176;
         this.ySize = 166;
     }
-    
+
     @Override
     public void handleMouseInput() {
         super.handleMouseInput();
@@ -58,16 +58,15 @@ public class GuiForge extends GuiContainer {
             showHeatTip = false;
         }
     }
-    
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public void drawScreen(int x, int y, float par3) {
         super.drawScreen(x, y, par3);
         if (showHeatTip) {
             ArrayList text = new ArrayList();
-            text.add(StatCollector.translateToLocal(Strings.TERM_HEAT)
-                    + ":");
-            text.add(tileHearth.getHeat() + "/100");
+            text.add(StatCollector.translateToLocal(Strings.TERM_HEAT) + ":");
+            text.add(tileHearth.getHeat() + "/1000");
             this.drawHoveringText(text, x, y, fontRenderer);
         }
     }
@@ -94,7 +93,17 @@ public class GuiForge extends GuiContainer {
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
+
+        if (tileHearth.getState() > 0) {
+            int burnTime = tileHearth.getBurnTimeRemainingScaled(12);
+            this.drawTexturedModalRect(xStart + 56,
+                    yStart + 36 + 12 - burnTime, 176, 12 - burnTime, 14,
+                    burnTime + 2);
+        }
+
+        int heat = (int) Math.floor(tileHearth.getHeat() / 10 / 2);
+        this.drawTexturedModalRect(xStart + 18, yStart + 16 + 50 - heat, 176,
+                81 - heat, 16, heat);
     }
 
 }
-

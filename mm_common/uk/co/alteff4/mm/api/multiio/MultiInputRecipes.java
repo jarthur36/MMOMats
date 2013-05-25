@@ -2,11 +2,14 @@ package uk.co.alteff4.mm.api.multiio;
 
 import java.util.HashMap;
 
+import uk.co.alteff4.mm.api.multiio.recipe.MultiInput;
+
+
 import net.minecraft.item.ItemStack;
 
 /**
  * 
- * MMO Materials
+ * PaleoSlotFramework
  * 
  * MultiInputRecipes
  * 
@@ -79,7 +82,7 @@ public class MultiInputRecipes {
 
     /**
      * 
-     * Checks if the given recipes are part of a recipe. Can take infinite
+     * Checks if the given inputs are part of a recipe. Can take infinite
      * arguments. The amount of arguments must match the input amount given in
      * the constructor.
      * 

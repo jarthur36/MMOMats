@@ -6,6 +6,7 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import uk.co.alteff4.mm.MMOMats;
+import uk.co.alteff4.mm.item.ItemHandBellows;
 import uk.co.alteff4.mm.lib.BlockIds;
 import uk.co.alteff4.mm.lib.GuiIds;
 import uk.co.alteff4.mm.lib.Reference;
@@ -18,6 +19,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -38,7 +40,6 @@ public class BlockForge extends BlockMM {
 
     public BlockForge(int id) {
         super(id, Material.anvil);
-        this.setCreativeTab(CreativeTabs.tabMisc);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -103,6 +104,18 @@ public class BlockForge extends BlockMM {
             setBlockBounds(0, 0, 0, 1, 0.5625F, 1);
             return;
         }
+        if (world.getBlockMetadata(x, y, z) == 3) {
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1F, 0.125F);
+            super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.125F, 1F, 1F);
+            super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+            this.setBlockBounds(0.0F, 0.0F, 0.875F, 1.0F, 1F, 1f);
+            super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+            this.setBlockBounds(0.9475F, 0.0F, 0, 1.0F, 1F, 1f);
+            super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+            setBlockBounds(0, 0, 0, 1, 1, 1);
+            return;
+        }
         this.setBlockBounds(0, 0, 0, 1, 1, 1);
         super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
     }
@@ -132,7 +145,7 @@ public class BlockForge extends BlockMM {
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z,
-            EntityPlayer player, int par6, float par7, float par8, float par9) {
+            EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         switch (world.getBlockMetadata(x, y, z)) {
             case 0:
                 return false;
@@ -142,7 +155,23 @@ public class BlockForge extends BlockMM {
                             .validateMultiBlock();
                     return true;
                 }
-                player.openGui(MMOMats.instance, GuiIds.HEARTH, world, x, y, z);
+                if (player.getHeldItem() != null
+                        && player.getHeldItem().getItem() instanceof ItemHandBellows) {
+                    TileHearth te = (TileHearth) world.getBlockTileEntity(x, y,
+                            z);
+                    te.increaseHeat(10);
+                    player.getHeldItem().damageItem(1, player);
+                    return true;
+                } else if (player.getHeldItem() != null
+                        && player.getHeldItem().itemID == Item.flintAndSteel.itemID) {
+                    TileHearth te = (TileHearth) world.getBlockTileEntity(x, y,
+                            z);
+                    te.fire();
+                    player.getHeldItem().damageItem(1, player);
+                    return true;
+                } else
+                    player.openGui(MMOMats.instance, GuiIds.HEARTH, world, x,
+                            y, z);
                 return true;
         }
         return false;
@@ -151,7 +180,7 @@ public class BlockForge extends BlockMM {
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
         if (world.getBlockMetadata(x, y, z) == 1) {
-            if (((TileHearth) world.getBlockTileEntity(x, y, z)).getState() == 1) {
+            if (((TileHearth) world.getBlockTileEntity(x, y, z)).getState() == 2) {
                 return 15;
             }
         }
@@ -172,8 +201,6 @@ public class BlockForge extends BlockMM {
     public int damageDropped(int metadata) {
         return metadata;
     }
-    
-    
 
     @Override
     public TileEntity createNewTileEntity(World world) {
@@ -214,7 +241,7 @@ public class BlockForge extends BlockMM {
         float mod2 = random.nextFloat() * 0.3F * multi;
 
         if (meta == 1) {
-            if (((TileHearth) world.getBlockTileEntity(x, y, z)).getState() == 1) {
+            if (((TileHearth) world.getBlockTileEntity(x, y, z)).getState() == 2) {
 
                 world.spawnParticle("flame", (double) (xMod - mod1), yMod,
                         (double) (zMod + mod2), 0.0D, 0.0D, 0.0D);
@@ -227,12 +254,10 @@ public class BlockForge extends BlockMM {
                 for (int i = 0; i <= 8; i++) {
                     if (world.getBlockTileEntity(x, y - i, z) instanceof TileHearth)
                         if (((TileHearth) world.getBlockTileEntity(x, y - i, z))
-                                .getState() == 1)
-                            if (((TileHearth) world.getBlockTileEntity(x,
-                                    y - i, z)).isMultiblockPart()) {
-                                spawnParticle = true;
-                                break;
-                            }
+                                .getState() == 2) {
+                            spawnParticle = true;
+                            break;
+                        }
                 }
                 if (spawnParticle) {
                     world.spawnParticle("smoke", (double) (xMod - mod1), yMod,
@@ -241,8 +266,8 @@ public class BlockForge extends BlockMM {
                             (double) (zMod - mod2), 0.0D, 0.0D, 0.0D);
                     mod1 = random.nextFloat() * 0.3F * multi;
                     mod2 = random.nextFloat() * 0.3F * multi;
-                    world.spawnParticle("smoke", (double) (xMod - mod1), yMod,
-                            (double) (zMod + mod2), 0.0D, 0.0D, 0.0D);
+                    world.spawnParticle("largesmoke", (double) (xMod - mod1),
+                            yMod, (double) (zMod + mod2), 0.0D, 0.0D, 0.0D);
                     world.spawnParticle("smoke", (double) (xMod + mod1), yMod,
                             (double) (zMod - mod2), 0.0D, 0.0D, 0.0D);
                 }

@@ -68,7 +68,7 @@ public class TileEntityForgeRenderer extends TileEntitySpecialRenderer {
         FMLClientHandler.instance().getClient().renderEngine
                 .bindTexture(Textures.MODEL_ANVIL);
 
-        if (te.getState() == 1) {
+        if (te.getState() > 0) {
             modelHearth.render(te.getCoalAmount());
         } else {
             modelHearth.render();

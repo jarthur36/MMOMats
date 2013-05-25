@@ -21,19 +21,19 @@ import uk.co.alteff4.mm.lib.Strings;
  * 
  * MMO Materials
  * 
- * ItemMat
+ * ItemMaterial
  * 
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-public class ItemMat extends ItemMM {
+public class ItemMaterial extends ItemMM {
     @SideOnly(Side.CLIENT)
     private HashMap<String, Icon[]> icons;
 
-    public ItemMat(int id) {
+    public ItemMaterial(int id) {
         super(id);
-        this.setCreativeTab(Reference.CREATIVE_TAB_MM);
+        this.setCreativeTab(Reference.CREATIVE_TAB_MATERIALS);
         this.setHasSubtypes(true);
         this.setUnlocalizedName(Strings.MATERIAL_NAME);
         this.icons = new HashMap<String, Icon[]>();
@@ -42,8 +42,8 @@ public class ItemMat extends ItemMM {
     @Override
     public String getUnlocalizedName(ItemStack is) {
         String name = is.getTagCompound().getString("MaterialType");
-        return this.getUnlocalizedName() + "." + name + "."
-                + Strings.tierNames[is.getItemDamage()];
+        return "item." + Reference.createUnlocalizedName(Strings.MATERIAL_NAME)
+                + "." + name + "." + Strings.tierNames[is.getItemDamage()];
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -74,8 +74,8 @@ public class ItemMat extends ItemMM {
                 String rawName = Strings.tierNames[i];
                 String upperCase = Character.toUpperCase(rawName.charAt(0))
                         + rawName.substring(1);
-                tempIcons[i] = iconRegister.registerIcon("mm:" + key
-                        + upperCase);
+                tempIcons[i] = iconRegister.registerIcon(Reference.MOD_ID
+                        .toLowerCase() + ":" + key + upperCase);
             }
             icons.put(key, tempIcons);
         }

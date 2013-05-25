@@ -1,5 +1,6 @@
 package uk.co.alteff4.mm.item;
 
+import uk.co.alteff4.mm.lib.Reference;
 import uk.co.alteff4.mm.lib.Strings;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -29,8 +30,9 @@ public class ItemBlockForge extends ItemBlock {
     public String getUnlocalizedName(ItemStack is) {
         if (is.getItemDamage() >= subNames.length)
             return "";
-        return "block." + Strings.FORGE_NORMAL_NAME + "."
-                + subNames[is.getItemDamage()];
+        return "block."
+                + Reference.createUnlocalizedName(Strings.FORGE_NORMAL_NAME)
+                + "." + subNames[is.getItemDamage()];
     }
 
     @Override

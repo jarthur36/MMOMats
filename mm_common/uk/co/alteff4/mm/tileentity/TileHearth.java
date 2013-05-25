@@ -1,12 +1,15 @@
 package uk.co.alteff4.mm.tileentity;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import uk.co.alteff4.mm.lib.BlockIds;
 import uk.co.alteff4.mm.lib.Strings;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.ForgeDirection;
 
 /**
@@ -32,11 +35,16 @@ public class TileHearth extends TileMM implements IInventory {
     public static final int FUEL_INVENTORY_INDEX = 0;
     public static final int OUTPUT_INVENTORY_INDEX = 2;
 
+    private int tickCount;
+    private boolean isFired;
+
     public TileHearth() {
         super();
         inventory = new ItemStack[INVENTORY_SIZE];
         setHeat(0);
         setCoalAmount(0);
+        setBurnTime(0);
+        setItemBurnTime(0);
         setIsMultiPart(false);
     }
 
@@ -170,6 +178,22 @@ public class TileHearth extends TileMM implements IInventory {
         setInt("heat", heat);
     }
 
+    public int getBurnTime() {
+        return getInt("burnTime");
+    }
+
+    public void setBurnTime(int burnTime) {
+        setInt("burnTime", burnTime);
+    }
+
+    public int getItemBurnTime() {
+        return getInt("itemBurnTime");
+    }
+
+    public void setItemBurnTime(int burnTime) {
+        setInt("itemBurnTime", burnTime);
+    }
+
     public int getCoalAmount() {
         return getInt("coalAmount");
     }
@@ -178,12 +202,82 @@ public class TileHearth extends TileMM implements IInventory {
         setInt("coalAmount", amount);
     }
 
+    public void increaseHeat(int amount) {
+        if (getHeat() == 1000)
+            return;
+        if (getCoalAmount() > 0) {
+            setHeat(getHeat() + amount);
+        }
+        if (getHeat() > 1000)
+            setHeat(1000);
+        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32,
+                worldObj.provider.dimensionId, getDescriptionPacket());
+    }
+
+    public void decreaseHeat(int amount) {
+        if (getHeat() == 0)
+            return;
+        int oldHeat = getHeat();
+        setHeat(getHeat() - amount);
+        if (getHeat() < 0)
+            setHeat(0);
+        if (getHeat() < oldHeat)
+            PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32,
+                    worldObj.provider.dimensionId, getDescriptionPacket());
+    }
+
+    public void fire() {
+        isFired = true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public int getBurnTimeRemainingScaled(int par1) {
+        if (getItemBurnTime() == 0) {
+            setItemBurnTime(200);
+        }
+
+        return getBurnTime() * par1 / getItemBurnTime();
+    }
+
+    private void decrBurnTime(int amount) {
+        setBurnTime(getBurnTime() - amount);
+    }
+
     @Override
     public void updateEntity() {
         super.updateEntity();
         boolean hasToUpd = false;
+        tickCount++;
+
+        if (getBurnTime() > 0)
+            decrBurnTime(1);
 
         if (!worldObj.isRemote) {
+            if (isFired && inventory[FUEL_INVENTORY_INDEX] != null
+                    && getHeat() < 100)
+                if (tickCount == 20)
+                    increaseHeat(1);
+
+            if (getHeat() >= 100 && isFired && getBurnTime() > 0) {
+                if (getState() < 2)
+                    hasToUpd = true;
+                setState((byte) 2);
+            }
+
+            if (getBurnTime() == 0) {
+                setBurnTime(TileEntityFurnace
+                        .getItemBurnTime(inventory[FUEL_INVENTORY_INDEX]));
+                setItemBurnTime(getBurnTime());
+                if (getBurnTime() > 0) {
+                    hasToUpd = true;
+                    decrStackSize(FUEL_INVENTORY_INDEX, 1);
+                }
+            }
+
+            if (inventory[FUEL_INVENTORY_INDEX] == null) {
+                if (tickCount == 20)
+                    decreaseHeat(2);
+            }
             if (inventory[FUEL_INVENTORY_INDEX] != null) {
                 if (getCoalAmount() != inventory[FUEL_INVENTORY_INDEX].stackSize) {
                     setCoalAmount(inventory[FUEL_INVENTORY_INDEX].stackSize);
@@ -193,9 +287,11 @@ public class TileHearth extends TileMM implements IInventory {
                     setState((byte) 1);
                     hasToUpd = true;
                 }
-            } else if (getState() == 1) {
+            } else if (getState() > 0) {
                 setCoalAmount(0);
-                setState((byte) 0);
+                if (getBurnTime() == 0)
+                    setState((byte) 0);
+                isFired = false;
                 hasToUpd = true;
             }
             if (hasToUpd) {
@@ -203,6 +299,9 @@ public class TileHearth extends TileMM implements IInventory {
                         32, this.worldObj.provider.dimensionId,
                         getDescriptionPacket());
             }
+        }
+        if (tickCount == 20) {
+            tickCount = 0;
         }
     }
 
@@ -305,6 +404,7 @@ public class TileHearth extends TileMM implements IInventory {
                 inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
             }
         }
+        isFired = nbtTagCompound.getBoolean("Fired");
     }
 
     @Override
@@ -323,6 +423,7 @@ public class TileHearth extends TileMM implements IInventory {
             }
         }
         nbtTagCompound.setTag("Items", tagList);
+        nbtTagCompound.setBoolean("Fired", isFired);
     }
 
     @Override

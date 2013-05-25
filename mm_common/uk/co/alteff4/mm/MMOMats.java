@@ -2,8 +2,6 @@ package uk.co.alteff4.mm;
 
 import java.io.File;
 
-import uk.co.alteff4.mm.api.material.MMOMaterial;
-import uk.co.alteff4.mm.api.registry.MaterialRegistry;
 import uk.co.alteff4.mm.api.util.LogHelper;
 import uk.co.alteff4.mm.block.ModBlocks;
 import uk.co.alteff4.mm.configuration.ConfigurationHandler;
@@ -11,7 +9,6 @@ import uk.co.alteff4.mm.core.handlers.LocalizationHandler;
 import uk.co.alteff4.mm.core.proxy.CommonProxy;
 import uk.co.alteff4.mm.item.ModItems;
 import uk.co.alteff4.mm.lib.Reference;
-import uk.co.alteff4.mm.lib.Strings;
 import uk.co.alteff4.mm.network.PacketHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -53,13 +50,11 @@ public class MMOMats {
                 + Reference.CHANNEL_NAME
                 + File.separator + Reference.MOD_ID + ".cfg"));
         ModBlocks.init();
-        MaterialRegistry.addMaterial(Strings.STONE_MAT_NAME, new MMOMaterial(
-                Strings.STONE_MAT_NAME, Strings.STONE_MAT_NAME));
+        ModItems.init();
     }
 
     @Init
     public void load(FMLInitializationEvent event) {
-        ModItems.init();
         NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 
         proxy.registerTileEntities();

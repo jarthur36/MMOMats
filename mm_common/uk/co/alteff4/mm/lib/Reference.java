@@ -1,11 +1,11 @@
 package uk.co.alteff4.mm.lib;
 
+import uk.co.alteff4.mm.creativetab.CreativeTabGeneral;
+import uk.co.alteff4.mm.creativetab.CreativeTabMaterials;
 import net.minecraft.creativetab.CreativeTabs;
 
 public class Reference {
-    public static CreativeTabs CREATIVE_TAB_MM = CreativeTabs.tabMaterials;
-    
-    public static final String MOD_ID = "MM";
+    public static final String MOD_ID = "MMOMats";
     public static final String MOD_NAME = "MMO Materials";
     public static final String VERSION_NUMBER = "Alpha 0.1";
     public static final String CHANNEL_NAME = MOD_ID;
@@ -17,4 +17,12 @@ public class Reference {
     public static final String CLIENT_PROXY_CLASS = "uk.co.alteff4.mm.core.proxy.ClientProxy";
     public static final int VERSION_CHECK_ATTEMPTS = 3;
 
+    public static CreativeTabs CREATIVE_TAB_MATERIALS = new CreativeTabMaterials(
+            CreativeTabs.getNextID(), MOD_ID + "Materials");
+    public static CreativeTabs CREATIVE_TAB_GENERAL = new CreativeTabGeneral(
+            CreativeTabs.getNextID(), MOD_ID);
+    
+    public static String createUnlocalizedName(String name) {
+        return MOD_ID.toLowerCase() + "." + name;
+    }
 }

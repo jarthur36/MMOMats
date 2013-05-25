@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties version="1.0">
+	<comment>German (de_DE) Localization File</comment>
+	<entry key="itemGroup.MMOMatsMaterials">MMOMats Materialien</entry>
+	<entry key="itemGroup.MMOMats">MMO Materials</entry>
+	
+	<entry key="block.mmomats.forge.anvil.name">Amboss</entry>
+	<entry key="block.mmomats.forge.hearth.name">Feuerstelle</entry>
+	<entry key="block.mmomats.forge.bellows.name">Blasebalg</entry>
+	<entry key="block.mmomats.forge.chimney.name">Schornstein</entry>
+	
+	<entry key="block.mmomats.blocks.fireResistant.name">Feuerbeständiger Ziegel</entry>
+	<entry key="block.mmArcaneForge.arcaneForge.name">Arkane Schmiede</entry>
+
+	<entry key="item.mmomats.material.stone.tier1.name">Steinsplitter</entry>
+	<entry key="item.mmomats.material.stone.tier2.name">Rauer Stein</entry>
+	<entry key="item.mmomats.material.stone.tier3.name">Stein</entry>
+	<entry key="item.mmomats.material.stone.tier4.name">Abgerundeter Stein</entry>
+	<entry key="item.mmomats.material.stone.tier5.name">Polierter Stein</entry>
+	<entry key="item.mmomats.material.stone.tier6.name">Verfeinerter Stein</entry>
+	
+	<entry key="item.mmomats.material.iron.tier1.name">Eisenreste</entry>
+	<entry key="item.mmomats.material.iron.tier2.name">Eisenklumpen</entry>
+	<entry key="item.mmomats.material.iron.tier3.name">Eisenbarren</entry>
+	<entry key="item.mmomats.material.iron.tier4.name">Verfeinerter Eisenbarren</entry>
+	<entry key="item.mmomats.material.iron.tier5.name">Polierte Eisenartefakte</entry>
+	<entry key="item.mmomats.material.iron.tier6.name">Uralter Eisenkern</entry>
+	
+	<entry key="item.mmomats.bellows.name">Blasebalg</entry>
+	
+	<entry key="container.hearth">Feuerstelle</entry>
+	<entry key="container.forge">Schmiede</entry>
+	
+	<entry key="term.heat">Hitze</entry>
+</properties>

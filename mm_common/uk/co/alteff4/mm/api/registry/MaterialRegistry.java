@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
 import uk.co.alteff4.mm.api.material.MMOMaterial;
 import uk.co.alteff4.mm.api.util.LogHelper;
 
@@ -18,6 +21,8 @@ import uk.co.alteff4.mm.api.util.LogHelper;
  * 
  */
 public class MaterialRegistry {
+    public static final int MATERIAL_ITEM_ID_DEFAULT = 5001;
+    public static int MATERIAL_ITEM_ID;
     private static MaterialRegistry instance;
     public HashMap<String, MMOMaterial> materials;
 
@@ -92,5 +97,32 @@ public class MaterialRegistry {
      */
     public static boolean containsMaterial(String id) {
         return instance().materials.containsKey(id);
+    }
+
+    /**
+     * 
+     * Creates an ItemStack for the given material.
+     * 
+     * @param id
+     *            The ID of the material to create the ItemStack of.
+     * @param amount
+     *            The amount of items in that ItemStack.
+     * @param tier
+     *            The tier of the material to create. Can go from 1 to 6 (lowest
+     *            to highest tier).
+     * @return
+     */
+    public static ItemStack createStack(String id, int amount, int tier) {
+        if (tier <= 0 || tier > 6)
+            return null;
+        if (!containsMaterial(id))
+            return null;
+
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setString("MaterialType", id);
+        ItemStack is = new ItemStack(MATERIAL_ITEM_ID, 1, tier - 1);
+        is.setTagCompound(tag);
+
+        return is;
     }
 }

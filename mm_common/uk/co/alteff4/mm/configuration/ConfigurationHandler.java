@@ -3,6 +3,7 @@ package uk.co.alteff4.mm.configuration;
 import java.io.File;
 import java.util.logging.Level;
 
+import uk.co.alteff4.mm.api.registry.MaterialRegistry;
 import uk.co.alteff4.mm.lib.BlockIds;
 import uk.co.alteff4.mm.lib.ItemIds;
 import uk.co.alteff4.mm.lib.Reference;
@@ -43,8 +44,11 @@ public class ConfigurationHandler {
             /* Block property configs */
 
             /* Item configs */
-            ItemIds.MATERIALS = configuration.getItem("itemMaterials",
-                    ItemIds.MATERIALS_DEFAULT).getInt(ItemIds.MATERIALS_DEFAULT);
+            MaterialRegistry.MATERIAL_ITEM_ID = configuration.getItem(
+                    "itemMaterials", MaterialRegistry.MATERIAL_ITEM_ID_DEFAULT)
+                    .getInt(MaterialRegistry.MATERIAL_ITEM_ID_DEFAULT);
+            ItemIds.BELLOWS = configuration.getItem(Strings.BELLOWS_NAME,
+                    ItemIds.BELLOWS_DEFAULT).getInt(ItemIds.BELLOWS_DEFAULT);
         } catch (Exception e) {
             FMLLog.log(Level.SEVERE, e, Reference.MOD_NAME
                     + " has had a problem loading its configuration");

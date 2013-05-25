@@ -18,6 +18,8 @@ public class BlockMM extends BlockContainer {
 
     public BlockMM(int id, Material mat) {
         super(id, mat);
+        
+        this.setCreativeTab(Reference.CREATIVE_TAB_GENERAL);
     }
 
     @Override
