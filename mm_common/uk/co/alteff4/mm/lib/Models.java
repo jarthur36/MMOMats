@@ -14,5 +14,5 @@ public class Models {
     public static final String MODEL_LOC = "/mods/"
             + Reference.MOD_ID.toLowerCase() + "/models/";
     
-    public static final String ANVIL = MODEL_LOC + "anvil.obj";
+    public static final String ANVIL = MODEL_LOC + "modelAnvil.obj";
 }

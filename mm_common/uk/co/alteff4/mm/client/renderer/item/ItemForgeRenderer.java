@@ -18,7 +18,7 @@ public class ItemForgeRenderer implements IItemRenderer {
     private ModelChimney modelChimney;
 
     public ItemForgeRenderer() {
-        // modelAnvil = new ModelAnvil();
+        modelAnvil = new ModelAnvil();
         modelHearth = new ModelHearth();
         modelChimney = new ModelChimney();
     }
@@ -47,7 +47,7 @@ public class ItemForgeRenderer implements IItemRenderer {
                 return;
             }
 
-            case EQUIPPED_FIRST_PERSON:
+            //case EQUIPPED_FIRST_PERSON:
             case EQUIPPED: {
                 if (item.getItemDamage() == 0)
                     renderAnvil(0f, 1f, 1f, 0.5f);
@@ -108,18 +108,16 @@ public class ItemForgeRenderer implements IItemRenderer {
         GL11.glPushMatrix();
 
         // Disable Lighting Calculations
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glTranslatef((float) x, (float) y - 0.75F, (float) z - 1);
+
+        GL11.glTranslatef((float) x+0.5F, (float) y, (float) z +0.5F);
         GL11.glScalef(scale, scale, scale);
         GL11.glRotatef(180f, 0f, 1f, 0f);
 
         FMLClientHandler.instance().getClient().renderEngine
                 .bindTexture(Textures.MODEL_ANVIL);
 
-        // modelAnvil.render();
+        modelAnvil.render();
 
-        // Re-enable Lighting Calculations
-        GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
     }
 }
