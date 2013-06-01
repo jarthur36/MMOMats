@@ -15,4 +15,5 @@ public class Models {
             + Reference.MOD_ID.toLowerCase() + "/models/";
     
     public static final String ANVIL = MODEL_LOC + "anvil.obj";
+    public static final String CUBUS_ARCANA = MODEL_LOC + "cubusArcana.obj";
 }

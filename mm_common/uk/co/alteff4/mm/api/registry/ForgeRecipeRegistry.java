@@ -1,6 +1,7 @@
 package uk.co.alteff4.mm.api.registry;
 
-import java.util.HashMap;
+import uk.co.alteff4.mm.api.multiio.SimpleRecipes;
+import uk.co.alteff4.mm.api.multiio.recipe.RecipeData;
 
 import net.minecraft.item.ItemStack;
 
@@ -15,21 +16,12 @@ import net.minecraft.item.ItemStack;
  * 
  */
 public class ForgeRecipeRegistry {
-    public HashMap<ItemStack, ItemStack> recipes;
-    private static ForgeRecipeRegistry instance;
+    private static SimpleRecipes instance;
 
-    private ForgeRecipeRegistry() {
-        recipes = new HashMap<ItemStack, ItemStack>();
-    }
-
-    public static ForgeRecipeRegistry instance() {
+    public static SimpleRecipes instance() {
         if (instance == null)
-            instance = new ForgeRecipeRegistry();
+            instance = new SimpleRecipes();
         return instance;
-    }
-
-    private static void addMapping(ItemStack input, ItemStack output) {
-        instance().recipes.put(input, output);
     }
 
     /**
@@ -40,14 +32,12 @@ public class ForgeRecipeRegistry {
      *            The ItemStack that get's processed
      * @param output
      *            The ItemStack resulting after processing
-     * @return true, if it has overridden an existing recipe, otherwise false
+     * @return true, if the addition was successfull
      */
-    public static boolean addRecipe(ItemStack input, ItemStack output) {
-        boolean returnValue = false;
-        if (instance().recipes.containsKey(input))
-            returnValue = true;
-        addMapping(input, output);
-        return returnValue;
+    public static boolean addRecipe(ItemStack input, ItemStack output,
+            int neededHeat) {
+        return instance().addRecipe(input, output,
+                new RecipeData("neededHeat", neededHeat));
     }
 
     /**
@@ -60,10 +50,7 @@ public class ForgeRecipeRegistry {
      *         doesn't exist
      */
     public static ItemStack getResult(ItemStack input) {
-        if (instance().recipes.containsKey(input)) {
-            return instance().recipes.get(input);
-        }
-        return null;
+        return instance().getResult(input);
     }
 
     /**

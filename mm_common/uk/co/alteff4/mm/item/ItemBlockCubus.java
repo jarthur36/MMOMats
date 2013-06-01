@@ -7,27 +7,27 @@ import uk.co.alteff4.mm.lib.Strings;
  * 
  * MMO Materials
  * 
- * ItemBlockStandard
+ * ItemBlockCubus
  * 
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-public class ItemBlockStandard extends ItemBlockMM {
-    private final static String[] subNames = { Strings.FIRE_RESISTANT_NAME };
+public class ItemBlockCubus extends ItemBlockMM {
+    private final static String[] subNames = { Strings.CUBUS_ARCANA_NAME };
 
-    public ItemBlockStandard(int id) {
+    public ItemBlockCubus(int id) {
         super(id);
-        this.setUnlocalizedName(Strings.STANDARD_BLOCKS_NAME);
+        this.setHasSubtypes(true);
+        this.setUnlocalizedName(Strings.CUBUS_NAME);
     }
 
     @Override
     public String getUnlocalizedName(ItemStack is) {
         if (is.getItemDamage() >= subNames.length)
             return "";
-        return "block."
-                + Strings.STANDARD_BLOCKS_NAME
-                + "." + subNames[is.getItemDamage()];
+        return "block." + Strings.CUBUS_NAME + "."
+                + subNames[is.getItemDamage()];
     }
 
     @Override

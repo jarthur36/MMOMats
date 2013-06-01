@@ -1,7 +1,6 @@
 package uk.co.alteff4.mm;
 
 import java.io.File;
-
 import uk.co.alteff4.mm.api.util.LogHelper;
 import uk.co.alteff4.mm.block.ModBlocks;
 import uk.co.alteff4.mm.configuration.ConfigurationHandler;
@@ -42,6 +41,8 @@ public class MMOMats {
 
     @PreInit
     public void preInit(FMLPreInitializationEvent event) {
+        // Initializing basic stuff like the log helper, localizations and the
+        // configuration
         LogHelper.init();
         LocalizationHandler.loadLanguages();
         ConfigurationHandler.init(new File(event.getModConfigurationDirectory()
@@ -49,21 +50,24 @@ public class MMOMats {
                 + File.separator
                 + Reference.CHANNEL_NAME
                 + File.separator + Reference.MOD_ID + ".cfg"));
+
+        // Initializing blocks and items added by the mod
         ModBlocks.init();
         ModItems.init();
     }
 
     @Init
     public void load(FMLInitializationEvent event) {
+        // Loading the GUI handler
         NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 
+        // Initializing TEs and their renderers
         proxy.registerTileEntities();
         proxy.initRenderingAndTextures();
     }
 
     @PostInit
     public void modsLoaded(FMLPostInitializationEvent event) {
-
     }
 
 }

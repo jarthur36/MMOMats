@@ -66,7 +66,7 @@ public class GuiHearth extends GuiContainer {
             ArrayList text = new ArrayList();
             text.add(StatCollector.translateToLocal(Strings.TERM_HEAT)
                     + ":");
-            text.add(tileHearth.getHeat() + "/1000");
+            text.add(tileHearth.getHeat() + " °C/1000 °C");
             this.drawHoveringText(text, x, y, fontRenderer);
         }
     }

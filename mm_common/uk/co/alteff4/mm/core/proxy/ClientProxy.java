@@ -5,10 +5,12 @@ import java.util.HashMap;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import uk.co.alteff4.mm.client.renderer.item.ItemForgeRenderer;
+import uk.co.alteff4.mm.client.renderer.tileentity.TileEntityCubusRenderer;
 import uk.co.alteff4.mm.client.renderer.tileentity.TileEntityForgeRenderer;
 import uk.co.alteff4.mm.lib.BlockIds;
 import uk.co.alteff4.mm.tileentity.TileAnvil;
 import uk.co.alteff4.mm.tileentity.TileChimney;
+import uk.co.alteff4.mm.tileentity.TileCubusArcana;
 import uk.co.alteff4.mm.tileentity.TileHearth;
 import uk.co.alteff4.mm.tileentity.TileMM;
 import net.minecraft.tileentity.TileEntity;
@@ -61,6 +63,10 @@ public class ClientProxy extends CommonProxy {
                 forgeRenderer);
         ClientRegistry.bindTileEntitySpecialRenderer(TileHearth.class,
                 forgeRenderer);
+
+        TileEntityCubusRenderer cubusRenderer = new TileEntityCubusRenderer();
+        ClientRegistry.bindTileEntitySpecialRenderer(TileCubusArcana.class,
+                cubusRenderer);
         MinecraftForgeClient.registerItemRenderer(BlockIds.FORGE,
                 new ItemForgeRenderer());
     }

@@ -2,7 +2,6 @@ package uk.co.alteff4.mm.item;
 
 import uk.co.alteff4.mm.lib.Reference;
 import uk.co.alteff4.mm.lib.Strings;
-import net.minecraft.item.Item;
 
 /**
  * 
@@ -20,8 +19,7 @@ public class ItemHandBellows extends ItemMM {
         super(id);
         this.setCreativeTab(Reference.CREATIVE_TAB_GENERAL);
 
-        this.setUnlocalizedName(Reference
-                .createUnlocalizedName(Strings.BELLOWS_NAME));
+        this.setUnlocalizedName(Strings.BELLOWS_NAME);
         this.setMaxDamage(30);
         this.setMaxStackSize(1);
     }

@@ -1,6 +1,6 @@
 package uk.co.alteff4.mm.core.handlers;
 
-import uk.co.alteff4.mm.core.helpers.LocalizationHelper;
+import uk.co.alteff4.mm.core.util.LocalizationHelper;
 import uk.co.alteff4.mm.lib.Localizations;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 

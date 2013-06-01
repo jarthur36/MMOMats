@@ -3,7 +3,7 @@ package uk.co.alteff4.mm.tileentity;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import uk.co.alteff4.mm.lib.BlockIds;
+import uk.co.alteff4.mm.core.util.WorldHelper;
 import uk.co.alteff4.mm.lib.Strings;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -25,7 +25,7 @@ import net.minecraftforge.common.ForgeDirection;
 public class TileHearth extends TileMM implements IInventory {
 
     /**
-     * The ItemStacks that hold the items currently being used in the Calcinator
+     * The ItemStacks that hold the items currently being used in the Forge
      */
     private ItemStack[] inventory;
 
@@ -65,39 +65,44 @@ public class TileHearth extends TileMM implements IInventory {
         int validUpperBlocks = 0;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (this.isValidForgePart(xCoord - i, yCoord, zCoord - j)
-                        && !(i == 0 && j == 0))
+                if (WorldHelper.isValidForgePart(worldObj, xCoord - i, yCoord,
+                        zCoord - j) && !(i == 0 && j == 0))
                     validBottomBlocks++;
             }
         }
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (this.isValidForgePart(xCoord - i, yCoord + 1, zCoord - j))
+                if (WorldHelper.isValidForgePart(worldObj, xCoord - i,
+                        yCoord + 1, zCoord - j))
                     validMidBlocks++;
             }
         }
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (this.isValidForgePart(xCoord - i, yCoord + 2, zCoord - j)
-                        && !(i == 0 && j == 0))
+                if (WorldHelper.isValidForgePart(worldObj, xCoord - i,
+                        yCoord + 2, zCoord - j) && !(i == 0 && j == 0))
                     validUpperBlocks++;
             }
         }
         ForgeDirection off = ForgeDirection.UP;
         if (validMidBlocks == 5) {
             // Checking South face of the structure
-            if (!(worldObj.getBlockId(xCoord, yCoord + 1, zCoord + 1) == 0
-                    && worldObj.getBlockId(xCoord - 1, yCoord + 1, zCoord + 1) == 0 && worldObj
-                        .getBlockId(xCoord + 1, yCoord + 1, zCoord + 1) == 0)) {
+            if (!(WorldHelper.isAirBlock(worldObj, xCoord, yCoord + 1,
+                    zCoord + 1)
+                    && WorldHelper.isAirBlock(worldObj, xCoord - 1, yCoord + 1,
+                            zCoord + 1) && WorldHelper.isAirBlock(worldObj,
+                    xCoord + 1, yCoord + 1, zCoord + 1))) {
                 validMidBlocks = 4;
             } else {
                 off = ForgeDirection.SOUTH;
             }
 
             // Checking North face of the structure
-            if (!(worldObj.getBlockId(xCoord, yCoord + 1, zCoord - 1) == 0
-                    && worldObj.getBlockId(xCoord - 1, yCoord + 1, zCoord - 1) == 0 && worldObj
-                        .getBlockId(xCoord + 1, yCoord + 1, zCoord - 1) == 0)) {
+            if (!(WorldHelper.isAirBlock(worldObj, xCoord, yCoord + 1,
+                    zCoord - 1)
+                    && WorldHelper.isAirBlock(worldObj, xCoord - 1, yCoord + 1,
+                            zCoord - 1) && WorldHelper.isAirBlock(worldObj,
+                    xCoord + 1, yCoord + 1, zCoord - 1))) {
                 if (off == ForgeDirection.UP)
                     validMidBlocks = 4;
             } else {
@@ -111,10 +116,11 @@ public class TileHearth extends TileMM implements IInventory {
 
             // Checking West face of the structure
             int offX = ForgeDirection.WEST.offsetX;
-            if (!(worldObj.getBlockId(xCoord + offX, yCoord + 1, zCoord) == 0
-                    && worldObj.getBlockId(xCoord + offX, yCoord + 1,
-                            zCoord - 1) == 0 && worldObj.getBlockId(xCoord
-                    + offX, yCoord + 1, zCoord + 1) == 0)) {
+            if (!(WorldHelper.isAirBlock(worldObj, xCoord + offX, yCoord + 1,
+                    zCoord)
+                    && WorldHelper.isAirBlock(worldObj, xCoord + offX,
+                            yCoord + 1, zCoord - 1) && WorldHelper.isAirBlock(
+                    worldObj, xCoord + offX, yCoord + 1, zCoord + 1))) {
                 if (off == ForgeDirection.UP)
                     validMidBlocks = 4;
             } else {
@@ -127,10 +133,11 @@ public class TileHearth extends TileMM implements IInventory {
             }
 
             offX = ForgeDirection.EAST.offsetX;
-            if (!(worldObj.getBlockId(xCoord + offX, yCoord + 1, zCoord) == 0
-                    && worldObj.getBlockId(xCoord + offX, yCoord + 1,
-                            zCoord - 1) == 0 && worldObj.getBlockId(xCoord
-                    + offX, yCoord + 1, zCoord + 1) == 0)) {
+            if (!(WorldHelper.isAirBlock(worldObj, xCoord + offX, yCoord + 1,
+                    zCoord)
+                    && WorldHelper.isAirBlock(worldObj, xCoord + offX,
+                            yCoord + 1, zCoord - 1) && WorldHelper.isAirBlock(
+                    worldObj, xCoord + offX, yCoord + 1, zCoord + 1))) {
                 if (off == ForgeDirection.UP)
                     validMidBlocks = 4;
             } else {
@@ -145,17 +152,19 @@ public class TileHearth extends TileMM implements IInventory {
         if (validUpperBlocks == 5 && !off.equals(ForgeDirection.UP)) {
             int offX = off.offsetX;
             int offZ = off.offsetZ;
-            if (!(worldObj.getBlockId(xCoord + offX, yCoord + 2, zCoord + offZ) == 0
-                    && worldObj.getBlockId(xCoord + offX, yCoord + 2, zCoord
-                            + offZ) == 0 && worldObj.getBlockId(xCoord + offX,
-                    yCoord + 2, zCoord + offZ) == 0)) {
+            if (!(WorldHelper.isAirBlock(worldObj, xCoord + offX, yCoord + 2,
+                    zCoord + offZ)
+                    && WorldHelper.isAirBlock(worldObj, xCoord + offX,
+                            yCoord + 2, zCoord + offZ) && WorldHelper
+                        .isAirBlock(worldObj, xCoord + offX, yCoord + 2, zCoord
+                                + offZ))) {
                 validUpperBlocks = 4;
             }
         }
         if (validBottomBlocks == 8
                 && validMidBlocks == 5
                 && validUpperBlocks == 5
-                && worldObj.getBlockId(xCoord, yCoord + 1, zCoord) == 0
+                && WorldHelper.isAirBlock(worldObj, xCoord, yCoord + 1, zCoord)
                 && worldObj.getBlockTileEntity(xCoord, yCoord + 2, zCoord) instanceof TileChimney
                 && worldObj.getBlockTileEntity(xCoord, yCoord + 3, zCoord) instanceof TileChimney) {
             setIsMultiPart(true);
@@ -264,7 +273,7 @@ public class TileHearth extends TileMM implements IInventory {
                 setState((byte) 2);
             }
 
-            if (getBurnTime() == 0) {
+            if (getBurnTime() == 0 && isFired) {
                 setBurnTime(TileEntityFurnace
                         .getItemBurnTime(inventory[FUEL_INVENTORY_INDEX]));
                 setItemBurnTime(getBurnTime());
@@ -272,6 +281,12 @@ public class TileHearth extends TileMM implements IInventory {
                     hasToUpd = true;
                     decrStackSize(FUEL_INVENTORY_INDEX, 1);
                 }
+                hasToUpd = true;
+            }
+
+            if (getBurnTime() > 0 && getCoalAmount() == 0) {
+                hasToUpd = true;
+                decrStackSize(FUEL_INVENTORY_INDEX, 1);
             }
 
             if (inventory[FUEL_INVENTORY_INDEX] == null) {
@@ -435,15 +450,6 @@ public class TileHearth extends TileMM implements IInventory {
     @Override
     public boolean isStackValidForSlot(int i, ItemStack itemstack) {
         return true;
-    }
-
-    public boolean isValidForgePart(int x, int y, int z) {
-        return worldObj.getBlockId(x, y, z) == BlockIds.STANDARD
-                && worldObj.getBlockMetadata(x, y, z) == 0;
-    }
-
-    public boolean isAirBlock(int x, int y, int z) {
-        return worldObj.getBlockId(x, y, z) == 0;
     }
 
 }

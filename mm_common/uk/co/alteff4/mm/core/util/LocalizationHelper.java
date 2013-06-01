@@ -1,4 +1,4 @@
-package uk.co.alteff4.mm.core.helpers;
+package uk.co.alteff4.mm.core.util;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 

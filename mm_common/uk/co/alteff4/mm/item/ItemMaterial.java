@@ -42,14 +42,14 @@ public class ItemMaterial extends ItemMM {
     @Override
     public String getUnlocalizedName(ItemStack is) {
         String name = is.getTagCompound().getString("MaterialType");
-        return "item." + Reference.createUnlocalizedName(Strings.MATERIAL_NAME)
-                + "." + name + "." + Strings.tierNames[is.getItemDamage()];
+        return "item." + Strings.MATERIAL_NAME + "." + name + "."
+                + Strings.tierNames[is.getItemDamage()];
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(int unk, CreativeTabs tabs, List list) {
+    public void getSubItems(int id, CreativeTabs tabs, List list) {
         Iterator<String> keyIter = MaterialRegistry.getKeyIterator();
         while (keyIter.hasNext()) {
             String key = keyIter.next();

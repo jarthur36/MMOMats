@@ -1,5 +1,6 @@
 package uk.co.alteff4.mm.item;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import uk.co.alteff4.mm.api.material.MMOMaterial;
 import uk.co.alteff4.mm.api.registry.MaterialRegistry;
 import uk.co.alteff4.mm.lib.ItemIds;
@@ -14,6 +15,10 @@ public class ModItems {
     public static void init() {
         itemMaterials = new ItemMaterial(MaterialRegistry.MATERIAL_ITEM_ID);
         itemBellows = new ItemHandBellows(ItemIds.BELLOWS);
+        
+        GameRegistry.registerItem(itemMaterials, Strings.MATERIAL_NAME);
+        GameRegistry.registerItem(itemBellows, Strings.BELLOWS_NAME);
+        
         initMaterials();
     }
     
