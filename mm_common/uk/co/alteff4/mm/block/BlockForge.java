@@ -104,6 +104,10 @@ public class BlockForge extends BlockMM {
             setBlockBounds(0, 0, 0, 1, 0.5625F, 1);
             return;
         }
+        if (world.getBlockMetadata(x, y, z) == 0) {
+            this.setBlockBounds(0.2F, 0, 0.2F, 0.8F, 0.6F, 0.8F);
+            super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+        }
         if (world.getBlockMetadata(x, y, z) == 3) {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1F, 0.125F);
             super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);

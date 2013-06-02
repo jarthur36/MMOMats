@@ -3,6 +3,7 @@ package uk.co.alteff4.mm.client.renderer.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import uk.co.alteff4.mm.client.model.ModelAnvil;
 import uk.co.alteff4.mm.client.model.ModelChimney;
 import uk.co.alteff4.mm.client.model.ModelHearth;
 //import uk.co.alteff4.mm.client.model.ModelAnvil;
@@ -13,12 +14,12 @@ import uk.co.alteff4.mm.tileentity.*;
 
 public class TileEntityForgeRenderer extends TileEntitySpecialRenderer {
 
-    // private ModelAnvil modelAnvil;
+    private ModelAnvil modelAnvil;
     private ModelHearth modelHearth;
     private ModelChimney modelChimney;
 
     public TileEntityForgeRenderer() {
-        // modelAnvil = new ModelAnvil();
+        modelAnvil = new ModelAnvil();
         modelHearth = new ModelHearth();
         modelChimney = new ModelChimney();
     }
@@ -85,7 +86,7 @@ public class TileEntityForgeRenderer extends TileEntitySpecialRenderer {
         // Move the object into the correct position on the block (because
         // the
         // OBJ's origin is the center of the object)
-        GL11.glTranslatef((float) x, (float) y, (float) z + 1);
+        GL11.glTranslatef((float) x+0.5F, (float) y, (float) z +0.5F);
 
         // Scale our object to about half-size in all directions (the OBJ
         // file
@@ -97,7 +98,7 @@ public class TileEntityForgeRenderer extends TileEntitySpecialRenderer {
                 .bindTexture(Textures.MODEL_ANVIL);
 
         // Render the object, using modelTutBox.renderAll();
-        // modelAnvil.render();
+        modelAnvil.render();
 
         // Pop this matrix from the stack.
         GL11.glPopMatrix();
