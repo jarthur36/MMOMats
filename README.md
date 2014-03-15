@@ -17,4 +17,3 @@ Planned features
 - Grinding Stone (Assigned: No one)
   - For refining materials
   - Multiple tiers (Stone, Diamond, later on maybe Adamantium or so)
-- Do everything to get into FTB and/or a Direwolf20 Spotlight (Assigned: Everyone)
